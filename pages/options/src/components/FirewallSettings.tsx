@@ -202,21 +202,6 @@ export const FirewallSettings = ({ isDarkMode }: FirewallSettingsProps) => {
           </div>
         </div>
       </div>
-
-      <div
-        className={`rounded-lg border ${isDarkMode ? 'border-slate-700 bg-slate-800' : 'border-blue-100 bg-gray-50'} p-6 text-left shadow-sm`}>
-        <h2 className={`mb-4 text-xl font-semibold ${isDarkMode ? 'text-gray-200' : 'text-gray-800'}`}>
-          How the Firewall Works
-        </h2>
-        <ul className={`list-disc space-y-2 pl-5 text-left text-sm ${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}>
-          <li>The firewall contains a deny list and an allow list.</li>
-          <li>If both lists are empty, all URLs are allowed</li>
-          <li>Deny list takes priority - if a URL matches any deny list entry, it&apos;s blocked</li>
-          <li>When allow list is empty, all non-denied URLs are allowed</li>
-          <li className="font-bold">When allow list is not empty, only matching URLs are allowed</li>
-          <li>Wildcards are NOT supported yet</li>
-        </ul>
-      </div>
     </section>
   );
 };

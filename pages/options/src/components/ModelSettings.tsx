@@ -1568,6 +1568,15 @@ export const ModelSettings = ({ isDarkMode = false }: ModelSettingsProps) => {
                           !providersFromStorage.has(type) &&
                           !modifiedProviders.has(type)),
                     )
+                    .filter(
+                      type =>
+                        type === ProviderTypeEnum.Anthropic ||
+                        type === ProviderTypeEnum.CustomOpenAI ||
+                        type === ProviderTypeEnum.Gemini ||
+                        type === ProviderTypeEnum.Ollama ||
+                        type === ProviderTypeEnum.OpenAI ||
+                        type === ProviderTypeEnum.DeepSeek,
+                    )
                     .map(type => (
                       <button
                         key={type}

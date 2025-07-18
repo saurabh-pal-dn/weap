@@ -11,8 +11,9 @@ type TabTypes = 'general' | 'models' | 'firewall' | 'help';
 const TABS: { id: TabTypes; icon: string; label: string }[] = [
   { id: 'general', icon: '⚙️', label: 'General' },
   { id: 'models', icon: '📊', label: 'Models' },
-  { id: 'firewall', icon: '🔒', label: 'Firewall' },
-  { id: 'help', icon: '📚', label: 'Help' },
+  // TODO: Implement
+  // { id: 'firewall', icon: '🔒', label: 'Firewall' },
+  // { id: 'help', icon: '📚', label: 'Help' },
 ];
 
 const Options = () => {
@@ -34,7 +35,8 @@ const Options = () => {
 
   const handleTabClick = (tabId: TabTypes) => {
     if (tabId === 'help') {
-      window.open('https://nanobrowser.ai/docs', '_blank');
+      // TODO: add the necessary changes
+      window.open('https://en.wikipedia.org/wiki/Agentic_AI', '_blank');
     } else {
       setActiveTab(tabId);
     }

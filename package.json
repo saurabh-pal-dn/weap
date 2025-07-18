@@ -1,11 +1,10 @@
 {
-  "name": "nanobrowser",
+  "name": "weap",
   "version": "0.1.8",
   "description": "AI web automation tool",
   "license": "Apache-2.0",
   "repository": {
-    "type": "git",
-    "url": "https://github.com/nanobrowser/nanobrowser.git"
+    "type": "git"
   },
   "type": "module",
   "scripts": {
