@@ -62,19 +62,8 @@ function MessageBlock({ message, isSameActor, isDarkMode = false }: MessageBlock
         <div className="space-y-0.5">
           <div className={`whitespace-pre-wrap break-words text-sm ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>
             {isProgress ? (
-              <div className="justify-left flex h-6 items-center gap-2">
-                <svg className="animate-spin" width={20} height={20}>
-                  <circle
-                    cx="10"
-                    cy="10"
-                    r="8"
-                    stroke={isDarkMode ? '#fff' : '#000'}
-                    strokeWidth="4"
-                    fill="none"
-                    strokeDasharray="40"
-                    strokeDashoffset="10"
-                  />
-                </svg>
+              <div className={`h-1 overflow-hidden rounded ${isDarkMode ? 'bg-gray-700' : 'bg-gray-200'}`}>
+                <div className="animate-progress h-full bg-blue-500" />
               </div>
             ) : (
               message.content
