@@ -227,6 +227,33 @@ export const GeneralSettings = ({ isDarkMode = false }: GeneralSettingsProps) =>
               </label>
             </div>
           </div>
+
+          <div className="flex items-center justify-between">
+            <div>
+              <h3 className={`text-base font-medium ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>Dark Mode</h3>
+              <p className={`text-sm font-normal ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>
+                Enable dark mode for the extension
+              </p>
+            </div>
+            <div className="relative inline-flex cursor-pointer items-center">
+              <input
+                id="darkMode"
+                type="checkbox"
+                checked={isDarkMode}
+                onChange={() => {
+                  // Optimistically update the local state for responsiveness
+                  // Call the store to update the setting
+                  chrome.storage.sync.set({ isDarkMode: !isDarkMode });
+                }}
+                className="peer sr-only"
+              />
+              <label
+                htmlFor="darkMode"
+                className={`peer h-6 w-11 rounded-full ${isDarkMode ? 'bg-slate-600' : 'bg-gray-200'} after:absolute after:left-[2px] after:top-[2px] after:size-5 after:rounded-full after:border after:border-gray-300 after:bg-white after:transition-all after:content-[''] peer-checked:bg-blue-600 peer-checked:after:translate-x-full peer-checked:after:border-white peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300`}>
+                <span className="sr-only">Dark Mode</span>
+              </label>
+            </div>
+          </div>
         </div>
       </div>
     </section>
