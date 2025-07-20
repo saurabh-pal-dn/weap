@@ -45,17 +45,13 @@ const SidePanel = () => {
   const audioChunksRef = useRef<Blob[]>([]);
   const recordingTimerRef = useRef<number | null>(null);
 
-  // Check for dark mode preference
+  // Use global dark mode from settings
   useEffect(() => {
-    const darkModeMediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
-    setIsDarkMode(darkModeMediaQuery.matches);
-
-    const handleChange = (e: MediaQueryListEvent) => {
-      setIsDarkMode(e.matches);
-    };
-
-    darkModeMediaQuery.addEventListener('change', handleChange);
-    return () => darkModeMediaQuery.removeEventListener('change', handleChange);
+    async function fetchSettings() {
+      const settings = await generalSettingsStore.getSettings();
+      setIsDarkMode(settings.isDarkMode);
+    }
+    fetchSettings();
   }, []);
 
   // Check if models are configured
