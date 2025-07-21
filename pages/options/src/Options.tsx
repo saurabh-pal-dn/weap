@@ -20,17 +20,13 @@ const Options = () => {
   const [activeTab, setActiveTab] = useState<TabTypes>('models');
   const [isDarkMode, setIsDarkMode] = useState(false);
 
-  // Check for dark mode preference
+  // Use global dark mode from settings
   useEffect(() => {
-    const darkModeMediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
-    setIsDarkMode(darkModeMediaQuery.matches);
-
-    const handleChange = (e: MediaQueryListEvent) => {
-      setIsDarkMode(e.matches);
-    };
-
-    darkModeMediaQuery.addEventListener('change', handleChange);
-    return () => darkModeMediaQuery.removeEventListener('change', handleChange);
+    async function fetchSettings() {
+      const settings = await import('@extension/storage').then(m => m.generalSettingsStore.getSettings());
+      setIsDarkMode(settings.isDarkMode);
+    }
+    fetchSettings();
   }, []);
 
   const handleTabClick = (tabId: TabTypes) => {

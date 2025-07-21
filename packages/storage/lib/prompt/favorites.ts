@@ -5,9 +5,9 @@ import type { BaseStorage } from '../base/types';
 // Template data
 const defaultFavoritePrompts = [
   {
-    title: '📚 Explore AI Papers',
+    title: '🏦 List of last 5 RBI governors with details.',
     content:
-      '- Go to https://huggingface.co/papers and click through each of the first 3 papers.\n- For each paper:\n  - Record the title, URL and upvotes\n  - Summarise the abstract section\n- Finally, compile together a summary of all 3 papers, ranked by upvotes',
+      '- Go to https://www.google.com and find the last 5 governors of RBI.\nFor each person, go to their wikipedia pge and search their education qualifications.\n Summarise the details, and share the same in neatly formatted.',
   },
 ];
 

@@ -25,3 +25,4 @@ chrome-extension/public/manifest.json
 .vscode
 .cursor
 *.py
+pnpm-lock.yaml
