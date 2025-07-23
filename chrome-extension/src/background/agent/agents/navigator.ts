@@ -96,15 +96,21 @@ export class NavigatorAgent extends BaseAgent<z.ZodType, NavigatorResult> {
       });
 
       let response = undefined;
+      console.log('logging-0 in chrome-extension/src/background/agents/agent/navigator.ts');
+
       try {
+        console.log('logging-1 in chrome-extension/src/background/agents/agent/navigator.ts');
         response = await structuredLlm.invoke(inputMessages, {
           signal: this.context.controller.signal,
           ...this.callOptions,
         });
-
+        console.log('logging-2 in chrome-extension/src/background/agents/agent/navigator.ts', {
+          response: response,
+        });
         if (response.parsed) {
           return response.parsed;
         }
+        console.log('logging-2 in chrome-extension/src/background/agents/agent/navigator.ts');
       } catch (error) {
         if (isAbortedError(error)) {
           throw error;

@@ -9,6 +9,14 @@ const defaultFavoritePrompts = [
     content:
       '- Go to https://www.google.com and find the last 5 governors of RBI.\nFor each person, go to their wikipedia pge and search their education qualifications.\n Summarise the details, and share the same in neatly formatted.',
   },
+  {
+    title: 'Get thought of the day',
+    content: '- Go to EKP NEW and fetch the thought of the day.',
+  },
+  {
+    title: 'What is 2+1?',
+    content: 'What is 2+1?',
+  },
 ];
 
 // Define the favorite prompt type

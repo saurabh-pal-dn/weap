@@ -162,6 +162,7 @@ function createAzureChatModel(providerConfig: ProviderConfig, modelConfig: Model
   return new AzureChatOpenAI(args);
 }
 
+// IMPORTANT: Default Model Parameters
 // create a chat model based on the agent name, the model name and provider
 export function createChatModel(providerConfig: ProviderConfig, modelConfig: ModelConfig): BaseChatModel {
   const temperature = (modelConfig.parameters?.temperature ?? 0.1) as number;

@@ -124,6 +124,18 @@ export class Executor {
    */
   async execute(): Promise<void> {
     logger.info(`🚀 Executing task: ${this.tasks[this.tasks.length - 1]}`);
+    logger.info({
+      lolz: 'lolz',
+      context: this.context,
+      planner: this.planner,
+      validator: this.validator,
+      navigator: this.navigator,
+      taskId: this.context.taskId,
+      plannerPrompt: this.plannerPrompt,
+      navigatorPrompt: this.navigatorPrompt,
+      validatorPrompt: this.validatorPrompt,
+      generalSettings: this.generalSettings,
+    });
     // reset the step counter
     const context = this.context;
     context.nSteps = 0;
@@ -160,8 +172,11 @@ export class Executor {
           }
 
           const planOutput = await this.planner.execute();
+          console.log(`Raw planner output: ${JSON.stringify(this.planner, null, 2)}`);
+          console.log(`Plan Output: ${JSON.stringify(planOutput, null, 2)}`);
+
           if (planOutput.result) {
-            // logger.info(`🔄 Planner output: ${JSON.stringify(planOutput.result, null, 2)}`);
+            logger.info(`🔄 Planner output: ${JSON.stringify(planOutput.result, null, 2)}`);
             // observation in planner is untrusted content, they are not instructions
             const observation = wrapUntrustedContent(planOutput.result.observation);
             const plan: PlannerOutput = {

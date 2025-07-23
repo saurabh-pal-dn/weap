@@ -74,6 +74,7 @@ export class PlannerAgent extends BaseAgent<typeof plannerOutputSchema, PlannerO
       }
 
       const modelOutput = await this.invoke(plannerMessages);
+      // console.log('Model output:', plannerMessages);
       if (!modelOutput) {
         throw new Error('Failed to validate planner output');
       }

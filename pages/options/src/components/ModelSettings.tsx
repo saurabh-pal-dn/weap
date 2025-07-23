@@ -1575,6 +1575,7 @@ export const ModelSettings = ({ isDarkMode = false }: ModelSettingsProps) => {
                         type === ProviderTypeEnum.Gemini ||
                         type === ProviderTypeEnum.Ollama ||
                         type === ProviderTypeEnum.OpenAI ||
+                        type === ProviderTypeEnum.OpenRouter ||
                         type === ProviderTypeEnum.DeepSeek,
                     )
                     .map(type => (

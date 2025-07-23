@@ -4,7 +4,7 @@ import type MessageManager from './messages/service';
 import type { EventManager } from './event/manager';
 import { type Actors, type ExecutionState, AgentEvent } from './event/types';
 import { AgentStepHistory } from './history';
-import { DOMHistoryElement } from '../browser/dom/history/view';
+import type { DOMHistoryElement } from '../browser/dom/history/view';
 
 export interface AgentOptions {
   maxSteps: number;
@@ -24,7 +24,7 @@ export interface AgentOptions {
 export const DEFAULT_AGENT_OPTIONS: AgentOptions = {
   maxSteps: 100,
   maxActionsPerStep: 10,
-  maxFailures: 3,
+  maxFailures: 1,
   maxValidatorFailures: 3,
   retryDelay: 10,
   maxInputTokens: 128000,
