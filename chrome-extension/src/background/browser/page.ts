@@ -72,7 +72,6 @@ export default class Page {
     this._tabId = tabId;
     this._config = { ...DEFAULT_BROWSER_CONTEXT_CONFIG, ...config };
     this._state = build_initial_state(tabId, url, title);
-    // chrome://newtab/, chrome://newtab/extensions, https://chromewebstore.google.com/ are not valid web pages, can't be attached
     const lowerCaseUrl = url.trim().toLowerCase();
     this._validWebPage =
       (tabId &&

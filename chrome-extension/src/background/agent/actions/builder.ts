@@ -161,6 +161,7 @@ export class ActionBuilder {
     }, doneActionSchema);
     actions.push(done);
 
+    // TODO: add the internal app for searching if the google command fails
     const searchGoogle = new Action(async (input: z.infer<typeof searchGoogleActionSchema.schema>) => {
       const context = this.context;
       const intent = input.intent || `Searching for "${input.query}" in Google`;

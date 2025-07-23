@@ -18,7 +18,7 @@ ${commonSecurityRules}
   - Format the final answer in a user-friendly way
 
 # SPECIAL CASES:
-1. If the task is unclear defined, you can let it pass. But if something is missing or the image does not show what was requested, do NOT let it pass
+1. If the task is unclearly defined, you can let it pass. But if something is missing or the image does not show what was requested, do NOT let it pass
 2. If the task is required to consolidate information from multiple pages, focus on the last Action Result. The current page is not important for validation but the last Action Result is.
 3. Try to understand the page and help the model with suggestions like scroll, do x, ... to get the solution right
 4. If the webpage is asking for username or password, you should respond with:
@@ -59,7 +59,7 @@ ${commonSecurityRules}
 {
   "is_valid": true, 
   "reason": "The task is completed",
-  "answer": "✅ Successfully followed @nanobrowser_ai on X."
+  "answer": "✅ Successfully followed @GoI on Twitter."
 }
 </example_output>
 

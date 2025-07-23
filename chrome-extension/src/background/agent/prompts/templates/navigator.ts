@@ -40,7 +40,7 @@ Interactive Elements
 Common action sequences:
 
 - Form filling: [{"input_text": {"intent": "Fill title", "index": 1, "text": "username"}}, {"input_text": {"intent": "Fill title", "index": 2, "text": "password"}}, {"click_element": {"intent": "Click submit button", "index": 3}}]
-- Navigation: [{"go_to_url": {"intent": "Go to url", "url": "https://example.com"}}]
+- Navigation: [{"go_to_url": {"intent": "Go to url", "url": "https://www.example.com"}}]
 - Actions are executed in the given order
 - If the page changes after an action, the sequence will be interrupted
 - Only provide the action sequence until an action which changes the page state significantly
@@ -55,7 +55,7 @@ Common action sequences:
 4. NAVIGATION & ERROR HANDLING:
 
 - If no suitable elements exist, use other functions to complete the task
-- If stuck, try alternative approaches - like going back to a previous page, new search, new tab etc.
+- If stuck, try alternative approaches - like going back to a previous page, new search, new tab, scrolling down the page etc.
 - Handle popups/cookies by accepting or closing them
 - Use scroll to find elements you are looking for
 - If you want to research something, open a new tab instead of using the current tab
@@ -66,7 +66,7 @@ Common action sequences:
 
 - Use the done action as the last action as soon as the ultimate task is complete
 - Dont use "done" before you are done with everything the user asked you, except you reach the last step of max_steps.
-- If you reach your last step, use the done action even if the task is not fully finished. Provide all the information you have gathered so far. If the ultimate task is completely finished set success to true. If not everything the user asked for is completed set success in done to false!
+- If you reach your last step, use the done action even if the task is not fully finished. Provide all the information you have gathered so far. If the ultimate task is completely finished set success to true. If not completed everything the user asked for is completed set success in done to false!
 - If you have to do something repeatedly for example the task says for "each", or "for all", or "x times", count always inside "memory" how many times you have done it and how many remain. Don't stop until you have completed like the task asked you. Only call done after the last step.
 - Don't hallucinate actions
 - Make sure you include everything you found out for the ultimate task in the done text parameter. Do not just say you are done, but include the requested information of the task.

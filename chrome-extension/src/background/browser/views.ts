@@ -67,7 +67,7 @@ export interface BrowserContextConfig {
 
   /**
    * Home page url
-   * @default 'https://www.google.com'
+   * @default 'https://ekamev.rbi.org.in'
    */
   homePageUrl: string;
 
