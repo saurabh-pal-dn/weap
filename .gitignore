@@ -3,7 +3,7 @@
 
 # testing
 **/coverage
-
+temp/*
 # build
 **/dist
 **/build
@@ -26,3 +26,5 @@ chrome-extension/public/manifest.json
 .cursor
 *.py
 pnpm-lock.yaml
+dist.zip
+chrome-extension/src/background/agent/prompts/templates.zip
