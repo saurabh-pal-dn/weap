@@ -43,7 +43,10 @@ export type PlannerOutput = z.infer<typeof plannerOutputSchema>;
 
 export class PlannerAgent extends BaseAgent<typeof plannerOutputSchema, PlannerOutput> {
   constructor(options: BaseAgentOptions, extraOptions?: Partial<ExtraAgentOptions>) {
-    super(plannerOutputSchema, options, { ...extraOptions, id: 'planner' });
+    super(plannerOutputSchema, options, {
+      ...extraOptions,
+      id: 'planner',
+    });
   }
 
   async execute(): Promise<AgentOutput<PlannerOutput>> {
@@ -74,7 +77,6 @@ export class PlannerAgent extends BaseAgent<typeof plannerOutputSchema, PlannerO
       }
 
       const modelOutput = await this.invoke(plannerMessages);
-      // console.log('Model output:', plannerMessages);
       if (!modelOutput) {
         throw new Error('Failed to validate planner output');
       }

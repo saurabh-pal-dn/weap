@@ -18,6 +18,14 @@ const defaultFavoritePrompts = [
     content:
       'How many leaves are available for me? Check the HR portal at https://samadhan.rbi.org.in/irj/portal/ and tell me.',
   },
+  {
+    title: `Code compiled at ${Date.now()}`,
+    content: 'What is 2+1?',
+  },
+  {
+    title: `Time in USA right now`,
+    content: 'What is the time in USA right now?',
+  },
 ];
 
 // Define the favorite prompt type

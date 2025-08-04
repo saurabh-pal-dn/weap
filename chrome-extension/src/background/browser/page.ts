@@ -404,6 +404,7 @@ export default class Page {
         // Return last known good state if available
         return this._state;
       }
+
       // log the attributes of content object
       if ('selectorMap' in content) {
         logger.debug('content.selectorMap:', content.selectorMap.size);

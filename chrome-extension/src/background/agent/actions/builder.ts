@@ -78,7 +78,7 @@ export class Action {
    * Returns the prompt for the action
    * @returns {string} The prompt for the action
    */
-  prompt() {
+  prompt(): string {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const schemaShape = (this.schema.schema as z.ZodObject<any>).shape || {};
     const schemaProperties = Object.entries(schemaShape).map(([key, value]) => {

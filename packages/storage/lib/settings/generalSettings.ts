@@ -26,14 +26,14 @@ export type GeneralSettingsStorage = BaseStorage<GeneralSettingsConfig> & {
 export const DEFAULT_GENERAL_SETTINGS: GeneralSettingsConfig = {
   maxSteps: 100,
   maxActionsPerStep: 5,
-  maxFailures: 3,
+  maxFailures: 1,
   useVision: false,
   useVisionForPlanner: false,
-  planningInterval: 3,
+  planningInterval: 1,
   displayHighlights: true,
-  minWaitPageLoad: 250,
+  minWaitPageLoad: 3000,
   replayHistoricalTasks: false,
-  isDarkMode: false,
+  isDarkMode: true,
 };
 
 const storage = createStorage<GeneralSettingsConfig>('general-settings', DEFAULT_GENERAL_SETTINGS, {

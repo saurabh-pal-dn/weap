@@ -5,6 +5,7 @@
  * @param denyList The deny list
  * @returns True if the URL is allowed, false otherwise
  */
+
 export function isUrlAllowed(url: string, allowList: string[], denyList: string[]): boolean {
   // Normalize and validate input
   const trimmedUrl = url.trim();
@@ -26,8 +27,17 @@ export function isUrlAllowed(url: string, allowList: string[], denyList: string[
     'ws:',
     'wss:',
   ];
+  const DISALLOWEDKEYWORDSREGEX = new RegExp(
+    '(xxx|porn|erotic|sex|nude|gambling|betting|casino|poker|roulette|' +
+      'games|gaming|xbox|playstation|nintendo|social|facebook|twitter|' +
+      'instagram|tiktok|reddit|streaming|netflix|hulu|disneyplus|' +
+      'youtube|vimeo|torrent|warez|crack|pirate|drugs|marijuana|weed|' +
+      'cannabis|forum|\\.xxx|\\.onion)',
+    'i',
+  );
+  const isDisallowed = DISALLOWEDKEYWORDSREGEX.test(lowerCaseUrl);
 
-  if (DANGEROUS_PREFIXES.some(prefix => lowerCaseUrl.startsWith(prefix))) {
+  if (DANGEROUS_PREFIXES.some(prefix => lowerCaseUrl.startsWith(prefix)) || isDisallowed) {
     return false;
   }
 

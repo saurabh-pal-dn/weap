@@ -13,17 +13,18 @@ export const GeneralSettings = ({ isDarkMode = false }: GeneralSettingsProps) =>
     generalSettingsStore.getSettings().then(setSettings);
   }, []);
 
+  // TODO: fix this
+  // All the update in GENERAL settings for UI is stooped
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const updateSetting = async <K extends keyof GeneralSettingsConfig>(key: K, value: GeneralSettingsConfig[K]) => {
     // Optimistically update the local state for responsiveness
-    setSettings(prevSettings => ({ ...prevSettings, [key]: value }));
-
+    // setSettings(prevSettings => ({ ...prevSettings, [key]: value }));
     // Call the store to update the setting
-    await generalSettingsStore.updateSettings({ [key]: value } as Partial<GeneralSettingsConfig>);
-
+    // await generalSettingsStore.updateSettings({ [key]: value } as Partial<GeneralSettingsConfig>);
     // After the store update (which might have side effects, e.g., useVision affecting displayHighlights),
     // fetch the latest settings from the store and update the local state again to ensure UI consistency.
-    const latestSettings = await generalSettingsStore.getSettings();
-    setSettings(latestSettings);
+    // const latestSettings = await generalSettingsStore.getSettings();
+    // setSettings(latestSettings);
   };
 
   return (

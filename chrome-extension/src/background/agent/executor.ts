@@ -172,8 +172,6 @@ export class Executor {
           }
 
           const planOutput = await this.planner.execute();
-          console.log(`Raw planner output: ${JSON.stringify(this.planner, null, 2)}`);
-          console.log(`Plan Output: ${JSON.stringify(planOutput, null, 2)}`);
 
           if (planOutput.result) {
             logger.info(`🔄 Planner output: ${JSON.stringify(planOutput.result, null, 2)}`);
@@ -251,7 +249,6 @@ export class Executor {
       // store the history only if replay is enabled
       if (this.generalSettings?.replayHistoricalTasks) {
         const historyString = JSON.stringify(this.context.history);
-        logger.info(`Executor history size: ${historyString.length}`);
         await chatHistoryStore.storeAgentStepHistory(this.context.taskId, this.tasks[0], historyString);
       } else {
         logger.info('Replay historical tasks is disabled, skipping history storage');

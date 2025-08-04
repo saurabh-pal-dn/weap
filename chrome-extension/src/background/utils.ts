@@ -122,6 +122,8 @@ export function convertZodToJsonSchema(zodSchema: z.ZodType, name: string, addTi
       : undefined,
   });
 
-  logger.info('Navigator json schema', JSON.stringify(jsonSchema, null, 2));
   return jsonSchema;
 }
+
+// Default delay of 5000 ms
+export const delay = (ms: number | undefined) => new Promise(res => setTimeout(res, ms ?? 5000));

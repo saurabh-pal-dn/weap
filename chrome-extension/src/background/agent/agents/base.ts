@@ -96,52 +96,32 @@ export abstract class BaseAgent<T extends z.ZodType, M = unknown> {
 
   // Set whether to use structured output based on the model name
   private setWithStructuredOutput(): boolean {
-    if (this.modelName === 'deepseek-reasoner' || this.modelName === 'deepseek-r1') {
-      return false;
-    }
     return true;
   }
 
   async invoke(inputMessages: BaseMessage[]): Promise<this['ModelOutput']> {
-    // Use structured output
-    console.log({
-      description: 'Invoking model in base 0',
-      inputMessages: inputMessages,
-      callOptions: this.callOptions,
-      signal: this.context.controller.signal,
-      modelOutputSchema: this.modelOutputSchema,
-      name: this.modelOutputToolName,
-    });
-
     if (this.withStructuredOutput) {
+      const input = {
+        outputSchema: this.modelOutputSchema,
+        config: {
+          includeRaw: true,
+          name: this.modelOutputToolName,
+        },
+      };
+      console.log('input', input);
       const structuredLlm = this.chatLLM.withStructuredOutput(this.modelOutputSchema, {
         includeRaw: true,
         name: this.modelOutputToolName,
       });
-      console.log({
-        description: 'Invoking model in base 1',
-        inputMessages: inputMessages,
-        callOptions: this.callOptions,
-        signal: this.context.controller.signal,
-        ...this.callOptions,
-      });
 
       try {
-        console.log('logging-0 in chrome-extension/src/background/agent/agents/base.ts');
-        console.log({ inputMessages });
         const response = await structuredLlm.invoke(inputMessages, {
           signal: this.context.controller.signal,
           ...this.callOptions,
         });
-        console.log({
-          description: 'Invoking model in base 2',
-          response: response,
-        });
+        console.log('response', response);
 
-        if (response.parsed) {
-          console.log('Structured output response:', response);
-          return response.parsed;
-        }
+        if (response.parsed) return response.parsed;
         logger.error('Failed to parse response', response);
         throw new Error('Could not parse response with structured output');
       } catch (error) {
@@ -153,12 +133,22 @@ export abstract class BaseAgent<T extends z.ZodType, M = unknown> {
       }
     }
 
+    console.log('running withoutStructuredOutput model');
     // Without structured output support, need to extract JSON from model output manually
     const convertedInputMessages = convertInputMessages(inputMessages, this.modelName);
-    const response = await this.chatLLM.invoke(convertedInputMessages, {
-      signal: this.context.controller.signal,
-      ...this.callOptions,
-    });
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    let response: Record<string, any> = {};
+    try {
+      response = await this.chatLLM.invoke(convertedInputMessages, {
+        signal: this.context.controller.signal,
+        ...this.callOptions,
+      });
+    } catch (e) {
+      console.log('Something is fucked');
+    }
+
+    if (!response.content) response.content = response.reasoning_content || response.content;
+    console.log('yeet', response);
     if (typeof response.content === 'string') {
       response.content = removeThinkTags(response.content);
       try {

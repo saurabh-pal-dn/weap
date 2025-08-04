@@ -65,6 +65,7 @@ const manifest = withOperaSidebar(
     options_page: 'options/index.html',
     background: {
       service_worker: 'background.iife.js',
+      // scripts: ['content/index.iife.js'],
       type: 'module',
     },
     action: {

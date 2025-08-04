@@ -2,7 +2,6 @@ import { StorageEnum } from '../base/enums';
 import { createStorage } from '../base/base';
 import type { BaseStorage } from '../base/types';
 import type { AgentNameEnum } from './types';
-import { llmProviderParameters } from './types';
 
 // Interface for a single model configuration
 export interface ModelConfig {
@@ -42,9 +41,9 @@ function validateModelConfig(config: ModelConfig) {
   }
 }
 
-function getModelParameters(agent: AgentNameEnum, provider: string): Record<string, unknown> {
-  const providerParams = llmProviderParameters[provider as keyof typeof llmProviderParameters]?.[agent];
-  return providerParams ?? { temperature: 0.1, topP: 0.1 };
+function getModelParameters(): Record<string, unknown> {
+  // const providerParams = llmProviderParameters[provider as keyof typeof llmProviderParameters]?.[agent];
+  return { temperature: 0.7, topP: 0.7 };
 }
 
 export const agentModelStore: AgentModelStorage = {
@@ -52,7 +51,7 @@ export const agentModelStore: AgentModelStorage = {
   setAgentModel: async (agent: AgentNameEnum, config: ModelConfig) => {
     validateModelConfig(config);
     // Merge default parameters with provided parameters
-    const defaultParams = getModelParameters(agent, config.provider);
+    const defaultParams = getModelParameters();
     const mergedConfig = {
       ...config,
       parameters: {
@@ -73,7 +72,7 @@ export const agentModelStore: AgentModelStorage = {
     if (!config) return undefined;
 
     // Merge default parameters with stored parameters
-    const defaultParams = getModelParameters(agent, config.provider);
+    const defaultParams = getModelParameters();
     return {
       ...config,
       parameters: {

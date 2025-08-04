@@ -11,6 +11,8 @@ import { createLogger } from '@src/background/log';
 import { isUrlAllowed } from './util';
 
 const logger = createLogger('BrowserContext');
+
+// This class creates tabs, etc
 export default class BrowserContext {
   private _config: BrowserContextConfig;
   private _currentTabId: number | null = null;
@@ -89,13 +91,16 @@ export default class BrowserContext {
     }
   }
 
+  //TODO
+  private async changeColorOfAgentTabs() {}
+
   public async getCurrentPage(): Promise<Page> {
     // 1. If _currentTabId not set, query the active tab and attach it
     if (!this._currentTabId) {
       let activeTab: chrome.tabs.Tab;
       const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
       if (!tab?.id) {
-        // open a new tab with blank page
+        // open a new tab with blank page in background
         const newTab = await chrome.tabs.create({ url: this._config.homePageUrl });
         if (!newTab.id) {
           // this should rarely happen
@@ -149,7 +154,7 @@ export default class BrowserContext {
       timeoutMs?: number;
     } = {},
   ): Promise<void> {
-    const { waitForUpdate = true, waitForActivation = true, timeoutMs = 5000 } = options;
+    const { waitForUpdate = true, waitForActivation = true, timeoutMs = 1000 } = options;
 
     const promises: Promise<void>[] = [];
 
@@ -261,8 +266,10 @@ export default class BrowserContext {
       throw new URLNotAllowedError(`Open tab failed. URL: ${url} is not allowed`);
     }
 
+    // Making this tab open in
     // Create the new tab
-    const tab = await chrome.tabs.create({ url, active: true });
+    const tab = await chrome.tabs.create({ url, active: false });
+    console.info('Opening new tab');
     if (!tab.id) {
       throw new Error('No tab ID available');
     }
@@ -274,7 +281,7 @@ export default class BrowserContext {
     // Create and attach the page after tab is fully loaded and activated
     const page = await this._getOrCreatePage(updatedTab);
     await this.attachPage(page);
-    this._currentTabId = tab.id;
+    // this._currentTabId = tab.id;
 
     return page;
   }

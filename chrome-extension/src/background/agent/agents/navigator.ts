@@ -21,13 +21,12 @@ import {
 } from './errors';
 import { calcBranchPathHashSet } from '@src/background/browser/dom/views';
 import { type BrowserState, BrowserStateHistory, URLNotAllowedError } from '@src/background/browser/views';
-import { convertZodToJsonSchema, repairJsonString } from '@src/background/utils';
+import { convertZodToJsonSchema, delay, repairJsonString } from '@src/background/utils';
 import { HistoryTreeProcessor } from '@src/background/browser/dom/history/service';
 import { AgentStepRecord } from '../history';
 import { type DOMHistoryElement } from '@src/background/browser/dom/history/view';
 
 const logger = createLogger('NavigatorAgent');
-
 interface ParsedModelOutput {
   current_state?: {
     next_goal?: string;
@@ -73,6 +72,7 @@ export class NavigatorAgent extends BaseAgent<z.ZodType, NavigatorResult> {
   private actionRegistry: NavigatorActionRegistry;
   private jsonSchema: Record<string, unknown>;
   private _stateHistory: BrowserStateHistory | null = null;
+  private actionIterator: number = 0;
 
   constructor(
     actionRegistry: NavigatorActionRegistry,
@@ -85,10 +85,76 @@ export class NavigatorAgent extends BaseAgent<z.ZodType, NavigatorResult> {
 
     // The zod object is too complex to be used directly, so we need to convert it to json schema first for the model to use
     this.jsonSchema = convertZodToJsonSchema(this.modelOutputSchema, 'NavigatorAgentOutput', true);
+    this.actionIterator = 0;
+  }
+
+  private getHardcodedActions(): unknown {
+    const actions: unknown[] = [
+      [
+        {
+          go_to_url: {
+            url: 'https://samadhan.rbi.org.in/irj/portal/',
+            intent: 'Navigate to the HR portal as specified in the task.',
+          },
+        },
+        {
+          click_element: {
+            index: 11,
+            intent: "Click on 'Self Services' to find leave information.",
+          },
+        },
+        {
+          click_element: {
+            index: 32,
+            intent: 'Click on Leave Request to find available leave information.',
+          },
+        },
+        { click_element: { intent: "Click on 'Leave History' tab", index: 24 } },
+        { input_text: { intent: "Enter '01.01.2025' in 'Show from' date input field", index: 33, text: '01.01.2025' } },
+        { click_element: { intent: 'Click outside the date input field to trigger update', index: 27 } },
+      ],
+      [
+        {
+          go_to_url: {
+            url: 'https://samadhan.rbi.org.in/irj/portal/',
+            intent: 'Navigate to the HR portal as specified in the task.',
+          },
+        },
+        {
+          click_element: {
+            index: 11,
+            intent: "Click on 'Self Services' to find leave information.",
+          },
+        },
+        {
+          click_element: {
+            index: 32,
+            intent: 'Click on Leave Request to find available leave information.',
+          },
+        },
+        {
+          click_element: {
+            index: 25,
+            intent: 'Click on Entitlements to find available leave information.',
+          },
+        },
+      ],
+    ];
+    return actions[0];
+  }
+
+  //harcoding is done for the first time only
+  private hardcodingNavigatorActions(parsedResponse: Awaited<this['ModelOutput']>): Awaited<this['ModelOutput']> {
+    if (this.actionIterator !== 0) return parsedResponse;
+    const hardcodedParseResponse = {
+      ...parsedResponse,
+      action: this.getHardcodedActions(),
+    };
+    this.actionIterator++;
+    return hardcodedParseResponse;
   }
 
   async invoke(inputMessages: BaseMessage[]): Promise<this['ModelOutput']> {
-    // Use structured output
     if (this.withStructuredOutput) {
       const structuredLlm = this.chatLLM.withStructuredOutput(this.jsonSchema, {
         includeRaw: true,
@@ -96,21 +162,16 @@ export class NavigatorAgent extends BaseAgent<z.ZodType, NavigatorResult> {
       });
 
       let response = undefined;
-      console.log('logging-0 in chrome-extension/src/background/agents/agent/navigator.ts');
 
       try {
-        console.log('logging-1 in chrome-extension/src/background/agents/agent/navigator.ts');
         response = await structuredLlm.invoke(inputMessages, {
           signal: this.context.controller.signal,
           ...this.callOptions,
         });
-        console.log('logging-2 in chrome-extension/src/background/agents/agent/navigator.ts', {
-          response: response,
-        });
+        console.log('Navigator response', response);
         if (response.parsed) {
           return response.parsed;
         }
-        console.log('logging-2 in chrome-extension/src/background/agents/agent/navigator.ts');
       } catch (error) {
         if (isAbortedError(error)) {
           throw error;
@@ -171,17 +232,20 @@ export class NavigatorAgent extends BaseAgent<z.ZodType, NavigatorResult> {
 
       // call the model to get the actions to take
       const inputMessages = messageManager.getMessages();
-      // logger.info('Navigator input message', inputMessages[inputMessages.length - 1]);
-
+      //print what it on the page as dom elements
+      logger.info(JSON.stringify(inputMessages.at(-1)?.content));
       const modelOutput = await this.invoke(inputMessages);
-
+      // hardcoding actions
+      // logger.info('original', JSON.stringify(modelOutput), 'iterator', this.actionIterator);
+      // modelOutput = this.hardcodingNavigatorActions(modelOutput);
+      // logger.info('hardcoded', JSON.stringify(modelOutput), 'iterator', this.actionIterator);
       // check if the task is paused or stopped
       if (this.context.paused || this.context.stopped) {
         cancelled = true;
         return agentOutput;
       }
 
-      const actions = this.fixActions(modelOutput);
+      const actions: Record<string, unknown>[] = this.fixActions(modelOutput);
       modelOutput.action = actions;
       modelOutputString = JSON.stringify(modelOutput);
 
@@ -358,7 +422,6 @@ export class NavigatorAgent extends BaseAgent<z.ZodType, NavigatorResult> {
   private async doMultiAction(actions: Record<string, unknown>[]): Promise<ActionResult[]> {
     const results: ActionResult[] = [];
     let errCount = 0;
-    logger.info('Actions', actions);
 
     const browserContext = this.context.browserContext;
     const browserState = await browserContext.getState(this.context.options.useVision);
@@ -367,6 +430,12 @@ export class NavigatorAgent extends BaseAgent<z.ZodType, NavigatorResult> {
     await browserContext.removeHighlight();
 
     for (const [i, action] of actions.entries()) {
+      console.log(`Performing action: ${action} which is ${i} / ${actions.length}`);
+      // i = go_to_url
+      // action = {
+      //   "url": "https://samadhan.rbi.org.in/irj/portal/",
+      //   "intent": "Navigate to the HR portal as specified in the task."
+      // }
       const actionName = Object.keys(action)[0];
       const actionArgs = action[actionName];
       try {
@@ -375,14 +444,14 @@ export class NavigatorAgent extends BaseAgent<z.ZodType, NavigatorResult> {
           return results;
         }
 
-        const actionInstance = this.actionRegistry.getAction(actionName);
+        const actionInstance: Action | undefined = this.actionRegistry.getAction(actionName);
         if (actionInstance === undefined) {
           throw new Error(`Action ${actionName} not exists`);
         }
 
         const indexArg = actionInstance.getIndexArg(actionArgs);
         if (i > 0 && indexArg !== null) {
-          const newState = await browserContext.getState(this.context.options.useVision);
+          const newState: BrowserState = await browserContext.getState(this.context.options.useVision);
           const newPathHashes = await calcBranchPathHashSet(newState);
           // next action requires index but there are new elements on the page
           if (!newPathHashes.isSubsetOf(cachedPathHashes)) {
@@ -394,14 +463,14 @@ export class NavigatorAgent extends BaseAgent<z.ZodType, NavigatorResult> {
                 includeInMemory: true,
               }),
             );
-            break;
+            // break;
           }
         }
 
+        // INFO: Taking actions here
         const result = await actionInstance.call(actionArgs);
-        if (result === undefined) {
-          throw new Error(`Action ${actionName} returned undefined`);
-        }
+        console.log(result);
+        if (result === undefined) throw new Error(`Action ${actionName} returned undefined`);
 
         // if the action has an index argument, record the interacted element to the result
         if (indexArg !== null) {
@@ -416,15 +485,14 @@ export class NavigatorAgent extends BaseAgent<z.ZodType, NavigatorResult> {
         results.push(result);
 
         // check if the task is paused or stopped
-        if (this.context.paused || this.context.stopped) {
-          return results;
-        }
+        if (this.context.paused || this.context.stopped) return results;
+
         // TODO: wait for 1 second for now, need to optimize this to avoid unnecessary waiting
-        await new Promise(resolve => setTimeout(resolve, 1000));
+        await delay(1000);
+        console.log('waiting for 1 seconds for page to load up');
       } catch (error) {
-        if (error instanceof URLNotAllowedError) {
-          throw error;
-        }
+        if (error instanceof URLNotAllowedError) throw error;
+
         const errorMessage = error instanceof Error ? error.message : String(error);
         logger.error(
           'doAction error',
