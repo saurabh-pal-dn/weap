@@ -1,6 +1,6 @@
 import { commonSecurityRules } from './common';
 
-export const plannerSystemPromptTemplate = `You are a helpful assistant. You are good at answering general questions and helping users break down web browsing tasks into smaller steps.
+export const plannerSystemPromptTemplate = `You are a helpful assistant. You are good at answering general questions and helping the users. If the tasks are web browsing tasks, break down web browsing tasks into smaller steps.
 
 ${commonSecurityRules}
 

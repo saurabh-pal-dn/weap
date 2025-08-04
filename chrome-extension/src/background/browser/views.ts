@@ -16,7 +16,7 @@ export interface BrowserContextConfig {
   /**
    * Time to wait for network requests to finish before getting page state.
    * Lower values may result in incomplete page loads.
-   * @default 1
+   * @default 2
    */
   waitForNetworkIdlePageLoadTime: number;
 
@@ -80,7 +80,7 @@ export interface BrowserContextConfig {
 
 export const DEFAULT_BROWSER_CONTEXT_CONFIG: BrowserContextConfig = {
   minimumWaitPageLoadTime: 0.25,
-  waitForNetworkIdlePageLoadTime: 0.5,
+  waitForNetworkIdlePageLoadTime: 1,
   maximumWaitPageLoadTime: 5.0,
   waitBetweenActions: 2,
   browserWindowSize: { width: 1280, height: 1100 },

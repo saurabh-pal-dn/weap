@@ -5,26 +5,43 @@ import type { BaseStorage } from '../base/types';
 // Template data
 const defaultFavoritePrompts = [
   {
-    title: '🏦 List of last 5 RBI governors with details.',
+    title: `1. `,
+    content: 'What is the time in USA right now?',
+  },
+  {
+    title: `2. How many leaves have I availed?`,
+    content: `How many leaves are availed by me?
+    Go to https://samadhan.rbi.org.in/irj/portal/
+    Click on 'Self service' to find leave information.
+    Click on Leave request to find the information.
+    Click on Leave History to find the information.
+    Summarise the details as per the different types of leaves`,
+  },
+  {
+    title: '3. How many leaves do I have available?',
+    content: `How many leaves are available for me?
+    Go to https://samadhan.rbi.org.in/irj/portal/
+    Click on 'Self service' to find leave information.
+    Click on Leave request to find available information
+    Click on Entitlements to find available leave information.`,
+  },
+  {
+    title: '4. What is my latest salary statement?',
+    content: `What is my latest salary statement?
+    Go to https://samadhan.rbi.org.in/irj/portal/
+    Click on 'Salary statement'.
+    Get the latest salary information.
+    Tell the gross pay and deductions.
+    Download the latest salary statement.`,
+  },
+  {
+    title: '5. Get thought of the day',
+    content: 'Go to EKP NEW at https://ekpnew.rbi.org.in/\n and fetch the thought of the day.',
+  },
+  {
+    title: '6. 🏦 List of last 5 RBI governors with details.',
     content:
       '- Find the last 5 governors of RBI.\nFor each person, go to their wikipedia pge and search their education qualifications.\n Summarise the details, and share the same in neatly formatted.',
-  },
-  {
-    title: 'Get thought of the day',
-    content: '- Go to EKP NEW at https://ekpnew.rbi.org.in/ and fetch the thought of the day.',
-  },
-  {
-    title: 'How many leaves do I have available?',
-    content:
-      'How many leaves are available for me? Check the HR portal at https://samadhan.rbi.org.in/irj/portal/ and tell me.',
-  },
-  {
-    title: `Code compiled at ${Date.now()}`,
-    content: 'What is 2+1?',
-  },
-  {
-    title: `Time in USA right now`,
-    content: 'What is the time in USA right now?',
   },
 ];
 

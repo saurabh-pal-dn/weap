@@ -1,6 +1,6 @@
 import { commonSecurityRules } from './common';
 
-export const validatorSystemPromptTemplate = `You are a validator of an agent who interacts with a browser.
+export const validatorSystemPromptTemplate = `You are a validator of an agent who is a helpful assistant. The agent can interacts with a browser and provide answers from the internet.
 
 ${commonSecurityRules}
 

@@ -268,7 +268,7 @@ export default class BrowserContext {
 
     // Making this tab open in
     // Create the new tab
-    const tab = await chrome.tabs.create({ url, active: false });
+    const tab = await chrome.tabs.create({ url, active: true });
     console.info('Opening new tab');
     if (!tab.id) {
       throw new Error('No tab ID available');

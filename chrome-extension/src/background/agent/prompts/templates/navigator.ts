@@ -36,7 +36,7 @@ Interactive Elements
    "next_goal": "What needs to be done with the next immediate action"},
    "action":[{"one_action_name": {// action-specific parameter}}, // ... more actions in sequence]}
 
-2. ACTIONS: You can specify multiple actions in the list to be executed in sequence. But always specify only one action name per item. Use maximum {{max_actions}} actions per sequence.
+2. ACTIONS: You can specify multiple actions in the list to be executed in sequence. If more than one actions are already known, you **MUST** specify multiple actions. But always specify only one action name per item. Use maximum {{max_actions}} actions per sequence.
 Common action sequences:
 
 - Form filling: [{"input_text": {"intent": "Fill title", "index": 1, "text": "username"}}, {"input_text": {"intent": "Fill title", "index": 2, "text": "password"}}, {"click_element": {"intent": "Click submit button", "index": 3}}]
@@ -101,7 +101,7 @@ Common action sequences:
        b) SCROLL: Scroll the content by ONE page with next_page action per step, do not scroll to bottom directly
        c) REPEAT: Continue analyze-evaluate loop until either:
           • Information becomes sufficient
-          • Maximum 10 page scrolls completed
+          • Maximum 5 page scrolls completed
   3. FINALIZE:
      - Combine all cached-findings with new-findings from current visible state
      - Verify all required information is collected

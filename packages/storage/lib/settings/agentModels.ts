@@ -42,8 +42,7 @@ function validateModelConfig(config: ModelConfig) {
 }
 
 function getModelParameters(): Record<string, unknown> {
-  // const providerParams = llmProviderParameters[provider as keyof typeof llmProviderParameters]?.[agent];
-  return { temperature: 0.7, topP: 0.7 };
+  return { temperature: 0.1, topP: 0.1 };
 }
 
 export const agentModelStore: AgentModelStorage = {

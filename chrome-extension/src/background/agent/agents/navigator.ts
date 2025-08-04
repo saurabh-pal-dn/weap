@@ -25,6 +25,7 @@ import { convertZodToJsonSchema, delay, repairJsonString } from '@src/background
 import { HistoryTreeProcessor } from '@src/background/browser/dom/history/service';
 import { AgentStepRecord } from '../history';
 import { type DOMHistoryElement } from '@src/background/browser/dom/history/view';
+import type BrowserContext from '@src/background/browser/context';
 
 const logger = createLogger('NavigatorAgent');
 interface ParsedModelOutput {
@@ -105,7 +106,7 @@ export class NavigatorAgent extends BaseAgent<z.ZodType, NavigatorResult> {
         },
         {
           click_element: {
-            index: 32,
+            index: 31,
             intent: 'Click on Leave Request to find available leave information.',
           },
         },
@@ -235,11 +236,13 @@ export class NavigatorAgent extends BaseAgent<z.ZodType, NavigatorResult> {
       //print what it on the page as dom elements
       logger.info(JSON.stringify(inputMessages.at(-1)?.content));
       const modelOutput = await this.invoke(inputMessages);
+
       // hardcoding actions
       // logger.info('original', JSON.stringify(modelOutput), 'iterator', this.actionIterator);
       // modelOutput = this.hardcodingNavigatorActions(modelOutput);
       // logger.info('hardcoded', JSON.stringify(modelOutput), 'iterator', this.actionIterator);
       // check if the task is paused or stopped
+
       if (this.context.paused || this.context.stopped) {
         cancelled = true;
         return agentOutput;
@@ -423,8 +426,8 @@ export class NavigatorAgent extends BaseAgent<z.ZodType, NavigatorResult> {
     const results: ActionResult[] = [];
     let errCount = 0;
 
-    const browserContext = this.context.browserContext;
-    const browserState = await browserContext.getState(this.context.options.useVision);
+    const browserContext: BrowserContext = this.context.browserContext;
+    const browserState: BrowserState = await browserContext.getState(this.context.options.useVision);
     const cachedPathHashes = await calcBranchPathHashSet(browserState);
 
     await browserContext.removeHighlight();
@@ -487,8 +490,15 @@ export class NavigatorAgent extends BaseAgent<z.ZodType, NavigatorResult> {
         // check if the task is paused or stopped
         if (this.context.paused || this.context.stopped) return results;
 
-        // TODO: wait for 1 second for now, need to optimize this to avoid unnecessary waiting
-        await delay(1000);
+        const currentTabUrl = await browserState.url;
+        console.log({ currentTabUrl });
+        // TODO: wait for 3 second for samadhan, 1second for others need to optimize this to avoid unnecessary waiting
+        if (currentTabUrl.includes('samadhan')) {
+          console.log('wait for 3 second for samadhan');
+          await delay(3000);
+        } else {
+          await delay(1000);
+        }
         console.log('waiting for 1 seconds for page to load up');
       } catch (error) {
         if (error instanceof URLNotAllowedError) throw error;
