@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { FaThumbsUp, FaThumbsDown } from 'react-icons/fa';
 
-const FEEDBACK_OPTIONS = ['Hallucination', 'Factually incorrect', 'Incomplete', 'Irrelevant'];
+const FEEDBACK_OPTIONS = ['Incomplete', 'Irrelevant', 'Incorrect', 'Hallucination'];
 
 enum FeedbackTypes {
   like = 'like',
@@ -82,7 +82,7 @@ export default function Feedback({ id }: ExtraFeedbackProps) {
       </button>
 
       {showPopup && (
-        <div className="absolute bottom-full mb-2 w-64 rounded-lg border border-gray-200 bg-white p-4 shadow-lg">
+        <div className="relative bottom-full mb-2 w-64 rounded-lg border border-gray-200 bg-white p-4 shadow-lg">
           <p className="mb-2 text-sm font-semibold text-gray-800">Please provide more feedback:</p>
           <div className="flex flex-wrap gap-2">
             {FEEDBACK_OPTIONS.map(reason => (

@@ -10,16 +10,16 @@ import { PersonalSettings } from './components/PersonalSettings';
 type TabTypes = 'general' | 'models' | 'firewall' | 'help' | 'personal';
 
 const TABS: { id: TabTypes; icon: string; label: string }[] = [
-  // { id: 'general', icon: '⚙️', label: 'General' },
   { id: 'personal', icon: '👤', label: 'Personal' },
-  { id: 'models', icon: '📊', label: 'Models' },
+  // { id: 'general', icon: '⚙️', label: 'General' },
+  // { id: 'models', icon: '📊', label: 'Models' },
   // TODO: Implement
   // { id: 'firewall', icon: '🔒', label: 'Firewall' },
   // { id: 'help', icon: '📚', label: 'Help' },
 ];
 
 const Options = () => {
-  const [activeTab, setActiveTab] = useState<TabTypes>('models');
+  const [activeTab, setActiveTab] = useState<TabTypes>('personal');
   const [isDarkMode, setIsDarkMode] = useState(false);
 
   // Use global dark mode from settings

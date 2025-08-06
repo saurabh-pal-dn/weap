@@ -3,7 +3,7 @@ import { useState, useEffect, useCallback, useRef } from 'react';
 import { FiSettings } from 'react-icons/fi';
 import { IoIosAddCircle } from 'react-icons/io';
 import { FaHistory } from 'react-icons/fa';
-import { type Message, Actors, chatHistoryStore, agentModelStore, generalSettingsStore } from '@extension/storage';
+import { type Message, Actors, chatHistoryStore, generalSettingsStore } from '@extension/storage';
 import favoritesStorage, { type FavoritePrompt } from '@extension/storage/lib/prompt/favorites';
 import MessageList from './components/MessageList';
 import ChatInput from './components/ChatInput';
@@ -30,7 +30,7 @@ const SidePanel = () => {
   const [isHistoricalSession, setIsHistoricalSession] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [favoritePrompts, setFavoritePrompts] = useState<FavoritePrompt[]>([]);
-  const [hasConfiguredModels, setHasConfiguredModels] = useState<boolean | null>(null); // null = loading, false = no models, true = has models
+  const [hasConfiguredModels, setHasConfiguredModels] = useState<boolean | null>(false); // null = loading, false = no models, true = has models
   const [isRecording, setIsRecording] = useState(false);
   const [isProcessingSpeech, setIsProcessingSpeech] = useState(false);
   const [isReplaying, setIsReplaying] = useState(false);
@@ -57,14 +57,13 @@ const SidePanel = () => {
   // Check if models are configured
   const checkModelConfiguration = useCallback(async () => {
     try {
-      const configuredAgents = await agentModelStore.getConfiguredAgents();
-
+      // const configuredAgents = await agentModelStore.getConfiguredAgents();
       // Check if at least one agent (preferably Navigator) is configured
-      const hasAtLeastOneModel = configuredAgents.length > 0;
-      setHasConfiguredModels(hasAtLeastOneModel);
+      // const hasAtLeastOneModel = configuredAgents.length > 0;
+      // setHasConfiguredModels(hasAtLeastOneModel);
     } catch (error) {
       console.error('Error checking model configuration:', error);
-      setHasConfiguredModels(false);
+      // setHasConfiguredModels(false);
     }
   }, []);
 
@@ -1011,7 +1010,7 @@ const SidePanel = () => {
               <>
                 <img src="/icon-128.png" alt="Extension Logo" className="size-8" />
                 <p className={`mb-2 pl-2 pt-2 text-lg font-semibold ${isDarkMode ? 'text-sky-500' : 'text-sky-700'}`}>
-                  Reserve Bank of India
+                  ChiRAG
                 </p>
               </>
             )}
@@ -1084,11 +1083,16 @@ const SidePanel = () => {
                 <div className="max-w-md text-center">
                   <img src="/icon-128.png" alt="icon" className="mx-auto mb-4 size-12" />
                   <h3 className={`mb-2 text-lg font-semibold ${isDarkMode ? 'text-sky-200' : 'text-sky-700'}`}>
-                    Reserve Bank of India
+                    ChiRAG
                   </h3>
-                  <p className="mb-4">To get started, please configure your API keys in the settings page.</p>
+                  <p className="mb-4">Add your details and get rocking</p>
                   <button
-                    onClick={() => chrome.runtime.openOptionsPage()}
+                    onClick={() => {
+                      chrome.runtime.openOptionsPage();
+                      setTimeout(() => {
+                        setHasConfiguredModels(true);
+                      }, 3000);
+                    }}
                     className={`my-4 rounded-lg px-4 py-2 font-medium transition-colors ${
                       isDarkMode ? 'bg-sky-600 text-white hover:bg-sky-700' : 'bg-sky-500 text-white hover:bg-sky-600'
                     }`}>

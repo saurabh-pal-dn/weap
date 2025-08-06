@@ -68,7 +68,7 @@ function MessageBlock({ message, isSameActor, isDarkMode = false, id }: MessageB
         <div className="space-y-0.5">
           <div className={`whitespace-pre-wrap break-words text-sm ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>
             {isProgress ? (
-              <div className="justify-left flex h-6 items-center gap-2">
+              <div className="flex h-6 items-center justify-start gap-2">
                 <svg className="animate-spin" width={20} height={20}>
                   <circle
                     cx="10"
@@ -83,12 +83,12 @@ function MessageBlock({ message, isSameActor, isDarkMode = false, id }: MessageB
                 </svg>
               </div>
             ) : (
-              <ReactMarkdown>{response}</ReactMarkdown>
+              response
             )}
           </div>
           {!isProgress && (actor.name === 'System' || actor.name === 'Validator') && (
             <div
-              className={`flex items-center justify-end gap-2 text-xs ${!isDarkMode ? 'text-gray-500' : 'text-gray-300'}`}>
+              className={`flex items-center justify-between gap-2 text-xs ${!isDarkMode ? 'text-gray-500' : 'text-gray-300'}`}>
               <Feedback id={id} />
               {formatTimestamp(message.timestamp)}
             </div>
