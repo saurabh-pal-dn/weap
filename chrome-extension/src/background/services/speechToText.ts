@@ -3,6 +3,7 @@ import { HumanMessage } from '@langchain/core/messages';
 import { createLogger } from '../log';
 import type { ProviderConfig } from '@extension/storage';
 import { speechToTextModelStore } from '@extension/storage';
+// import { SpeechToText } from '../../../node_modules/speech-to-text/src/index';
 
 const logger = createLogger('SpeechToText');
 
@@ -15,13 +16,17 @@ export class SpeechToTextService {
 
   static async create(providers: Record<string, ProviderConfig>): Promise<SpeechToTextService> {
     try {
+      await speechToTextModelStore.setSpeechToTextModel({
+        provider: 'gemini',
+        modelName: 'gemini-2.5-flash',
+      });
       const config = await speechToTextModelStore.getSpeechToTextModel();
 
       if (!config?.provider || !config?.modelName) {
         throw new Error('No speech-to-text model configured. Please configure a Gemini model in settings.');
       }
 
-      const provider = providers[config.provider];
+      const provider: ProviderConfig = providers[config.provider];
       logger.info('Found provider for speech-to-text:', provider ? 'yes' : 'no', provider?.type);
 
       if (!provider || provider.type !== 'gemini') {
@@ -75,4 +80,10 @@ export class SpeechToTextService {
       throw new Error(`Speech transcription failed: ${error instanceof Error ? error.message : 'Unknown error'}`);
     }
   }
+
+  // async transcribeOnDevice(): Promise<string> {
+  //   const onAnythingSaid = text => {
+  //     setInterimText(text);
+  //   };
+  // }
 }

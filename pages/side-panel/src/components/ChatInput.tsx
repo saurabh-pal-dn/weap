@@ -118,10 +118,11 @@ export default function ChatInput({
         />
 
         <div
-          className={`flex items-center justify-between px-2 py-1.5 ${
+          className={`flex items-stretch justify-between px-2 py-1.5 ${
             disabled ? (isDarkMode ? 'bg-slate-800' : 'bg-gray-100') : isDarkMode ? 'bg-slate-800' : 'bg-white'
           }`}>
-          <div className="flex gap-2 text-gray-500">
+          {/* TODO: speech to text functionality */}
+          {/* <div className="flex gap-2 text-gray-500">
             {onMicClick && (
               <button
                 type="button"
@@ -146,7 +147,7 @@ export default function ChatInput({
                 )}
               </button>
             )}
-          </div>
+          </div> */}
 
           {showStopButton ? (
             <button

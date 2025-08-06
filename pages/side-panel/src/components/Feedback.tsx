@@ -82,7 +82,7 @@ export default function Feedback({ id }: ExtraFeedbackProps) {
       </button>
 
       {showPopup && (
-        <div className="relative bottom-full mb-2 w-64 rounded-lg border border-gray-200 bg-white p-4 shadow-lg">
+        <div className="absolute bottom-full z-10 mb-2 w-64 rounded-lg border border-gray-200 bg-white p-4 shadow-lg">
           <p className="mb-2 text-sm font-semibold text-gray-800">Please provide more feedback:</p>
           <div className="flex flex-wrap gap-2">
             {FEEDBACK_OPTIONS.map(reason => (

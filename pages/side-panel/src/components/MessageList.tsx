@@ -1,7 +1,6 @@
 import type { Message } from '@extension/storage';
 import { ACTOR_PROFILES } from '../types/message';
 import { memo } from 'react';
-import ReactMarkdown from 'react-markdown';
 import Feedback from './Feedback';
 
 interface MessageListProps {

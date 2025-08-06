@@ -2,19 +2,32 @@ import { StorageEnum } from '../base/enums';
 import { createStorage } from '../base/base';
 import type { BaseStorage } from '../base/types';
 
+// {
+//   title: 'Give my weekly schedule',
+//   content: `Go to https://mail.rbi.org.in/owa/#path=/calendar/view/Week
+//   Check my schedule and give me bullet points for the tasks/meeting planned.
+//   The information should have the meeting subject, date and time and organiser.`,
+// },
+// {
+//   title: 'Give my monthly schedule',
+//   content: `Go to https://mail.rbi.org.in/owa/#path=/calendar/view/Month
+//   Check my schedule and give me bullet points for the tasks/meeting planned.
+//   The information should have the meeting subject, date and time and organiser.`,
+// },
+
 const defaultFavoritePromptsForInternet = {
   domain: 'internet',
   prompts: [
     {
-      title: `0. What is the current policy rate?`,
+      title: `What is the current policy rate?`,
       content: `What is the current policy rate?\nGo to https://rbi.org.in/home.aspx.\nSummarise the policy rates and tell me.`,
     },
     {
-      title: '2. How many leaves do I have available?',
-      content: `How many leaves are available for me?\nGo to https://samadhan.rbi.org.in/irj/portal/\nClick on 'Self service' to find leave information.\nClick on Leave request to find available information\nClick on Entitlements to find available leave information.`,
+      title: 'Give me top 5 headlines of the day',
+      content: `Tell me the top 5 headlines of today,\nthey should pertain to India and related to finance domain.`,
     },
     {
-      title: '3. What is my latest salary statement?',
+      title: 'What is my latest salary statement?',
       content: `What is my latest salary statement?\nGo to https://samadhan.rbi.org.in/irj/portal/\nClick on 'Salary statement'.\nGet the latest salary information.\nTell the gross pay and deductions.\nDownload the latest salary statement.`,
     },
   ],
@@ -23,15 +36,15 @@ const defaultFavoritePromptsForSamadhan = {
   domain: 'samadhan',
   prompts: [
     {
-      title: `1. How many leaves have I availed?`,
+      title: `How many leaves have I availed?`,
       content: `How many leaves are availed by me?\nGo to https://samadhan.rbi.org.in/irj/portal/\nClick on 'Self service' to find leave information.\nClick on Leave request to find the information.\nClick on Leave History to find the information.\nSummarise the details as per the different types of leaves`,
     },
     {
-      title: '2. How many leaves do I have available?',
+      title: 'How many leaves do I have available?',
       content: `How many leaves are available for me?\nGo to https://samadhan.rbi.org.in/irj/portal/\nClick on 'Self service' to find leave information.\nClick on Leave request to find available information\nClick on Entitlements to find available leave information.`,
     },
     {
-      title: '3. What is my latest salary statement?',
+      title: 'What is my latest salary statement?',
       content: `What is my latest salary statement?\nGo to https://samadhan.rbi.org.in/irj/portal/\nClick on 'Salary statement'.\nGet the latest salary information.\nTell the gross pay and deductions.\nDownload the latest salary statement.`,
     },
   ],
@@ -40,7 +53,7 @@ const defaultFavoritePromptsForEKP = {
   domain: 'ekp',
   prompts: [
     {
-      title: '1. Get latest circulars',
+      title: 'Get latest circulars',
       content: `Go to EKP NEW at https://ekpnew.rbi.org.in/ords/r/rbi_ws/rbi-ekp/home \nGo to circulars.\nSelect published by Department of Information Technology from dropdown.\nFetch the information for latest 5 circulars.`,
     },
   ],
@@ -49,29 +62,16 @@ const defaultFavoritePromptsForCalendar = {
   domain: 'owa',
   prompts: [
     {
-      title: '1. Give my schedule for the day',
+      title: 'Give my schedule for the day',
       content: `Go to https://mail.rbi.org.in/owa/#path=/calendar/view/Day\nCheck my schedule and give me bullet points for the tasks/meeting that I have planned for the day.\nThe information should have the meeting subject and organiser.`,
     },
-    // {
-    //   title: '2. Give my weekly schedule',
-    //   content: `Go to https://mail.rbi.org.in/owa/#path=/calendar/view/Week
-    //   Check my schedule and give me bullet points for the tasks/meeting planned.
-    //   The information should have the meeting subject, date and time and organiser.`,
-    // },
-    // {
-    //   title: '3. Give my monthly schedule',
-    //   content: `Go to https://mail.rbi.org.in/owa/#path=/calendar/view/Month
-    //   Check my schedule and give me bullet points for the tasks/meeting planned.
-    //   The information should have the meeting subject, date and time and organiser.`,
-    // },
     {
-      title: '4. Check my pending unread mails',
+      title: 'Check my pending unread mails',
       content: `Go to https://mail.rbi.org.in/owa/#path=/mail/inbox\nuse the filter to select the "unread" emails. \nFetch the top 5 emails from today.`,
     },
   ],
 };
 
-// Define the favorite prompt type
 export interface FavoritePrompt {
   id: number;
   title: string;
@@ -202,10 +202,10 @@ export function createFavoritesStorage(): FavoritePromptsStorage {
       // Check if storage is in initial state (empty prompts array and nextId=1)
       if (currentState.prompts.length === 0 && currentState.nextId === 1) {
         const favoritePrompts = [
-          ...defaultFavoritePromptsForInternet.prompts,
+          ...defaultFavoritePromptsForCalendar.prompts,
           ...defaultFavoritePromptsForEKP.prompts,
           ...defaultFavoritePromptsForSamadhan.prompts,
-          ...defaultFavoritePromptsForCalendar.prompts,
+          ...defaultFavoritePromptsForInternet.prompts,
         ];
         for (const prompt of favoritePrompts) {
           await favoritesStorage.set(prev => {
@@ -217,7 +217,8 @@ export function createFavoritesStorage(): FavoritePromptsStorage {
         const newState = await favoritesStorage.get();
         prompts = newState.prompts;
       }
-      return [...prompts].sort((a, b) => a.id - b.id);
+      return prompts;
+      // return [...prompts].sort((a, b) => a.id - b.id);
     },
 
     getPromptById: async (id: number): Promise<FavoritePrompt | undefined> => {

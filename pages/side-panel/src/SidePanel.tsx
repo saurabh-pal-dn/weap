@@ -753,6 +753,8 @@ const SidePanel = () => {
     if (setInputTextRef.current) {
       setInputTextRef.current(content);
     }
+    // Send automatically
+    handleSendMessage(content);
   };
 
   const handleBookmarkUpdateTitle = async (id: number, title: string) => {
