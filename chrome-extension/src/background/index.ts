@@ -2,8 +2,10 @@ import 'webextension-polyfill';
 import {
   agentModelStore,
   AgentNameEnum,
+  DEFAULT_GENERAL_SETTINGS,
   firewallStore,
-  generalSettingsStore,
+  // generalSettingsStore,
+  getDefaultProviderConfig,
   llmProviderStore,
 } from '@extension/storage';
 import BrowserContext from './browser/context';
@@ -273,11 +275,39 @@ chrome.runtime.onConnect.addListener(port => {
 });
 
 async function setupExecutor(taskId: string, task: string, browserContext: BrowserContext) {
+  // handling all logic to setup models at setup to bypass UI
+  // Setting up providers
+  await llmProviderStore.setProvider('gemini', getDefaultProviderConfig('gemini'));
+  // await llmProviderStore.setProvider('custom_open_ai', getDefaultProviderConfig('custom_open_ai'));
+
   const providers = await llmProviderStore.getAllProviders();
   // if no providers, need to display the options page
   if (Object.keys(providers).length === 0) {
     throw new Error('Please configure API keys in the settings first');
   }
+
+  const defaultParameter = {
+    temperature: 0.1,
+    topP: 0.1,
+  };
+
+  // Using providers to set up models
+  await agentModelStore.setAgentModel(AgentNameEnum.Planner, {
+    provider: 'gemini',
+    modelName: 'gemini-2.5-flash',
+    parameters: defaultParameter,
+  });
+  await agentModelStore.setAgentModel(AgentNameEnum.Navigator, {
+    provider: 'gemini',
+    modelName: 'gemini-2.5-flash',
+    parameters: defaultParameter,
+  });
+  await agentModelStore.setAgentModel(AgentNameEnum.Validator, {
+    provider: 'gemini',
+    modelName: 'gemini-2.5-flash',
+    parameters: defaultParameter,
+  });
+
   const agentModels = await agentModelStore.getAllAgentModels();
   // verify if every provider used in the agent models exists in the providers
   for (const agentModel of Object.values(agentModels)) {
@@ -324,7 +354,7 @@ async function setupExecutor(taskId: string, task: string, browserContext: Brows
     });
   }
 
-  const generalSettings = await generalSettingsStore.getSettings();
+  const generalSettings = DEFAULT_GENERAL_SETTINGS;
   browserContext.updateConfig({
     minimumWaitPageLoadTime: generalSettings.minWaitPageLoad / 1000.0,
     displayHighlights: generalSettings.displayHighlights,

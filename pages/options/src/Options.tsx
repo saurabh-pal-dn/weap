@@ -5,11 +5,13 @@ import { withErrorBoundary, withSuspense } from '@extension/shared';
 import { GeneralSettings } from './components/GeneralSettings';
 import { ModelSettings } from './components/ModelSettings';
 import { FirewallSettings } from './components/FirewallSettings';
+import { PersonalSettings } from './components/PersonalSettings';
 
-type TabTypes = 'general' | 'models' | 'firewall' | 'help';
+type TabTypes = 'general' | 'models' | 'firewall' | 'help' | 'personal';
 
 const TABS: { id: TabTypes; icon: string; label: string }[] = [
-  { id: 'general', icon: '⚙️', label: 'General' },
+  // { id: 'general', icon: '⚙️', label: 'General' },
+  { id: 'personal', icon: '👤', label: 'Personal' },
   { id: 'models', icon: '📊', label: 'Models' },
   // TODO: Implement
   // { id: 'firewall', icon: '🔒', label: 'Firewall' },
@@ -46,6 +48,8 @@ const Options = () => {
         return <ModelSettings isDarkMode={isDarkMode} />;
       case 'firewall':
         return <FirewallSettings isDarkMode={isDarkMode} />;
+      case 'personal':
+        return <PersonalSettings isDarkMode={isDarkMode} />;
       default:
         return null;
     }

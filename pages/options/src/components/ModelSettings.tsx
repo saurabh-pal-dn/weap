@@ -229,6 +229,7 @@ export const ModelSettings = ({ isDarkMode = false }: ModelSettingsProps) => {
     updateAvailableModels();
   }, [getAvailableModelsCallback]); // Only depends on the callback
 
+  // adding API keys and base URL
   const handleApiKeyChange = (provider: string, apiKey: string, baseUrl?: string) => {
     setModifiedProviders(prev => new Set(prev).add(provider));
     setProviders(prev => ({
@@ -367,6 +368,7 @@ export const ModelSettings = ({ isDarkMode = false }: ModelSettingsProps) => {
     };
   };
 
+  // 1. Save: Saving happens
   const handleSave = async (provider: string) => {
     try {
       // Check if name contains spaces for custom providers
@@ -490,6 +492,7 @@ export const ModelSettings = ({ isDarkMode = false }: ModelSettingsProps) => {
     });
   };
 
+  // Storing the model
   const handleModelChange = async (agentName: AgentNameEnum, modelValue: string) => {
     // modelValue will be in format "provider>model"
     const [provider, model] = modelValue.split('>');
@@ -568,6 +571,7 @@ export const ModelSettings = ({ isDarkMode = false }: ModelSettingsProps) => {
     }
   };
 
+  // Change the parameters
   const handleParameterChange = async (agentName: AgentNameEnum, paramName: 'temperature' | 'topP', value: number) => {
     const newParameters = {
       ...modelParameters[agentName],

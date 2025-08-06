@@ -1,13 +1,16 @@
 import type { Message } from '@extension/storage';
 import { ACTOR_PROFILES } from '../types/message';
 import { memo } from 'react';
+import ReactMarkdown from 'react-markdown';
+import Feedback from './Feedback';
 
 interface MessageListProps {
   messages: Message[];
   isDarkMode?: boolean;
+  id: string | null;
 }
 
-export default memo(function MessageList({ messages, isDarkMode = false }: MessageListProps) {
+export default memo(function MessageList({ messages, id, isDarkMode = false }: MessageListProps) {
   return (
     <div className="max-w-full space-y-4">
       {messages.map((message, index) => (
@@ -16,6 +19,7 @@ export default memo(function MessageList({ messages, isDarkMode = false }: Messa
           message={message}
           isSameActor={index > 0 ? messages[index - 1].actor === message.actor : false}
           isDarkMode={isDarkMode}
+          id={id}
         />
       ))}
     </div>
@@ -26,15 +30,17 @@ interface MessageBlockProps {
   message: Message;
   isSameActor: boolean;
   isDarkMode?: boolean;
+  id: string | null;
 }
 
-function MessageBlock({ message, isSameActor, isDarkMode = false }: MessageBlockProps) {
+function MessageBlock({ message, isSameActor, isDarkMode = false, id }: MessageBlockProps) {
   if (!message.actor) {
     console.error('No actor found');
     return <div />;
   }
+  const response = message.content;
   const actor = ACTOR_PROFILES[message.actor as keyof typeof ACTOR_PROFILES];
-  const isProgress = message.content === 'Showing progress...';
+  const isProgress: boolean = message.content === 'Showing progress...';
 
   return (
     <div
@@ -77,11 +83,13 @@ function MessageBlock({ message, isSameActor, isDarkMode = false }: MessageBlock
                 </svg>
               </div>
             ) : (
-              message.content
+              <ReactMarkdown>{response}</ReactMarkdown>
             )}
           </div>
-          {!isProgress && (
-            <div className={`text-right text-xs ${isDarkMode ? 'text-gray-500' : 'text-gray-300'}`}>
+          {!isProgress && (actor.name === 'System' || actor.name === 'Validator') && (
+            <div
+              className={`flex items-center justify-end gap-2 text-xs ${!isDarkMode ? 'text-gray-500' : 'text-gray-300'}`}>
+              <Feedback id={id} />
               {formatTimestamp(message.timestamp)}
             </div>
           )}

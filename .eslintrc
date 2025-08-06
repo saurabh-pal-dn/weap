@@ -32,6 +32,8 @@
     "react/react-in-jsx-scope": "off",
     "import/no-unresolved": "off",
     "@typescript-eslint/consistent-type-imports": "error",
+    // uncomment in production built
+    // "curly": ["error", "multi"],
   },
   "globals": {
     "chrome": "readonly",

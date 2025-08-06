@@ -1067,7 +1067,7 @@ const SidePanel = () => {
         ) : (
           <>
             {/* Show loading state while checking model configuration */}
-            {hasConfiguredModels === null && (
+            {/* {hasConfiguredModels !== null && (
               <div
                 className={`flex flex-1 items-center justify-center p-8 ${isDarkMode ? 'text-sky-300' : 'text-sky-600'}`}>
                 <div className="text-center">
@@ -1075,7 +1075,7 @@ const SidePanel = () => {
                   <p>Checking configuration...</p>
                 </div>
               </div>
-            )}
+            )} */}
 
             {/* Show setup message when no models are configured */}
             {hasConfiguredModels === false && (
@@ -1146,7 +1146,7 @@ const SidePanel = () => {
                 {messages.length > 0 && (
                   <div
                     className={`scrollbar-gutter-stable flex-1 overflow-x-hidden overflow-y-scroll scroll-smooth p-2 ${isDarkMode ? 'bg-slate-900/80' : ''}`}>
-                    <MessageList messages={messages} isDarkMode={isDarkMode} />
+                    <MessageList messages={messages} id={currentSessionId} isDarkMode={isDarkMode} />
                     <div ref={messagesEndRef} />
                   </div>
                 )}
