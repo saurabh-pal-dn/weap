@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { FiSettings } from 'react-icons/fi';
-import { IoIosAddCircle } from 'react-icons/io';
+import { IoIosAddCircle, IoIosHelpCircleOutline } from 'react-icons/io';
 import { FaHistory } from 'react-icons/fa';
 import { type Message, Actors, chatHistoryStore, generalSettingsStore } from '@extension/storage';
 import favoritesStorage, { type FavoritePrompt } from '@extension/storage/lib/prompt/favorites';
@@ -30,7 +30,7 @@ const SidePanel = () => {
   const [isHistoricalSession, setIsHistoricalSession] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [favoritePrompts, setFavoritePrompts] = useState<FavoritePrompt[]>([]);
-  const [hasConfiguredModels, setHasConfiguredModels] = useState<boolean | null>(false); // null = loading, false = no models, true = has models
+  const [hasConfiguredModels, setHasConfiguredModels] = useState<boolean>(false);
   const [isRecording, setIsRecording] = useState(false);
   const [isProcessingSpeech, setIsProcessingSpeech] = useState(false);
   const [isReplaying, setIsReplaying] = useState(false);
@@ -54,17 +54,8 @@ const SidePanel = () => {
     fetchSettings();
   }, []);
 
-  // Check if models are configured
   const checkModelConfiguration = useCallback(async () => {
-    try {
-      // const configuredAgents = await agentModelStore.getConfiguredAgents();
-      // Check if at least one agent (preferably Navigator) is configured
-      // const hasAtLeastOneModel = configuredAgents.length > 0;
-      // setHasConfiguredModels(hasAtLeastOneModel);
-    } catch (error) {
-      console.error('Error checking model configuration:', error);
-      // setHasConfiguredModels(false);
-    }
+    setHasConfiguredModels(true);
   }, []);
 
   // Load general settings to check if replay is enabled
@@ -1022,6 +1013,14 @@ const SidePanel = () => {
               <>
                 <button
                   type="button"
+                  title="Developed by RBI for RBI. @Chirag Team + Saurabh Pal"
+                  className={`header-icon ${isDarkMode ? 'text-sky-400 hover:text-sky-300' : 'text-sky-400 hover:text-sky-500'} cursor-pointer`}
+                  aria-label="about"
+                  tabIndex={0}>
+                  <IoIosHelpCircleOutline size={20} />
+                </button>
+                <button
+                  type="button"
                   title="New Chat"
                   onClick={handleNewChat}
                   onKeyDown={e => e.key === 'Enter' && handleNewChat()}
@@ -1067,19 +1066,8 @@ const SidePanel = () => {
           </div>
         ) : (
           <>
-            {/* Show loading state while checking model configuration */}
-            {/* {hasConfiguredModels !== null && (
-              <div
-                className={`flex flex-1 items-center justify-center p-8 ${isDarkMode ? 'text-sky-300' : 'text-sky-600'}`}>
-                <div className="text-center">
-                  <div className="mx-auto mb-4 size-8 animate-spin rounded-full border-2 border-sky-400 border-t-transparent"></div>
-                  <p>Checking configuration...</p>
-                </div>
-              </div>
-            )} */}
-
             {/* Show setup message when no models are configured */}
-            {hasConfiguredModels === false && (
+            {!hasConfiguredModels && (
               <div
                 className={`flex flex-1 items-center justify-center p-8 ${isDarkMode ? 'text-sky-300' : 'text-sky-600'}`}>
                 <div className="max-w-md text-center">
@@ -1087,13 +1075,16 @@ const SidePanel = () => {
                   <h3 className={`mb-2 text-lg font-semibold ${isDarkMode ? 'text-sky-200' : 'text-sky-700'}`}>
                     ChiRAG
                   </h3>
-                  <p className="mb-4">Add your details and get rocking</p>
+                  <p className="mb-4">
+                    You can add your personal details in settings. This is a one time activity. Please wait for 5
+                    seconds while we set things up
+                  </p>
                   <button
                     onClick={() => {
                       chrome.runtime.openOptionsPage();
                       setTimeout(() => {
                         setHasConfiguredModels(true);
-                      }, 3000);
+                      }, 5000);
                     }}
                     className={`my-4 rounded-lg px-4 py-2 font-medium transition-colors ${
                       isDarkMode ? 'bg-sky-600 text-white hover:bg-sky-700' : 'bg-sky-500 text-white hover:bg-sky-600'
@@ -1115,7 +1106,7 @@ const SidePanel = () => {
             )}
 
             {/* Show normal chat interface when models are configured */}
-            {hasConfiguredModels === true && (
+            {hasConfiguredModels && (
               <>
                 {messages.length === 0 && (
                   <>
@@ -1137,15 +1128,21 @@ const SidePanel = () => {
                         onReplay={handleReplay}
                       />
                     </div>
-                    <div className="flex-1 overflow-y-auto">
-                      <BookmarkList
-                        bookmarks={favoritePrompts}
-                        onBookmarkSelect={handleBookmarkSelect}
-                        onBookmarkUpdateTitle={handleBookmarkUpdateTitle}
-                        onBookmarkDelete={handleBookmarkDelete}
-                        onBookmarkReorder={handleBookmarkReorder}
-                        isDarkMode={isDarkMode}
-                      />
+                    <div className="absolute bottom-0 max-w-full">
+                      <h3
+                        className={`mb-3 pl-2 text-center text-lg font-medium ${isDarkMode ? 'text-gray-200' : 'text-gray-700'}`}>
+                        Quick Start
+                      </h3>
+                      <div className="items-center[-ms-overflow-style:none] max-h-60 max-w-full flex-1 overflow-y-auto pl-3.5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+                        <BookmarkList
+                          bookmarks={favoritePrompts}
+                          onBookmarkSelect={handleBookmarkSelect}
+                          onBookmarkUpdateTitle={handleBookmarkUpdateTitle}
+                          onBookmarkDelete={handleBookmarkDelete}
+                          onBookmarkReorder={handleBookmarkReorder}
+                          isDarkMode={isDarkMode}
+                        />
+                      </div>
                     </div>
                   </>
                 )}

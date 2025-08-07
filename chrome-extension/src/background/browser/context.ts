@@ -91,9 +91,6 @@ export default class BrowserContext {
     }
   }
 
-  //TODO
-  private async changeColorOfAgentTabs() {}
-
   public async getCurrentPage(): Promise<Page> {
     // 1. If _currentTabId not set, query the active tab and attach it
     if (!this._currentTabId) {
@@ -215,11 +212,28 @@ export default class BrowserContext {
       promises.push(activatedPromise);
     }
 
+    // TODO:
+    // await this.injectScriptToChangeTabApperance(tabId);
     const timeoutPromise = new Promise<never>((_, reject) =>
       setTimeout(() => reject(new Error(`Tab operation timed out after ${timeoutMs} ms`)), timeoutMs),
     );
 
     await Promise.race([Promise.all(promises), timeoutPromise]);
+  }
+
+  private async injectScriptToChangeTabApperance(tabId: number): Promise<void> {
+    const injection = {
+      target: { tabId: tabId },
+      func: () => {
+        document.title = 'Agentic Tab';
+        const link = document.createElement('link');
+        link.rel = 'icon';
+        link.type = 'image/png';
+        link.href = 'chrome-extension/public/icon-128.png';
+        document.head.appendChild(link);
+      },
+    };
+    await chrome.scripting.executeScript(injection);
   }
 
   public async switchTab(tabId: number): Promise<Page> {
@@ -246,6 +260,7 @@ export default class BrowserContext {
     }
     // if page is attached, use puppeteer to navigate to the url
     if (page.attached) {
+      // if (this._currentTabId) this.injectScriptToChangeTabApperance(this._currentTabId);
       await page.navigateTo(url);
       return;
     }

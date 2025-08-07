@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { FaThumbsUp, FaThumbsDown } from 'react-icons/fa';
 
-const FEEDBACK_OPTIONS = ['Incomplete', 'Irrelevant', 'Incorrect', 'Hallucination'];
+const FEEDBACK_OPTIONS = ['Incomplete', 'Irrelevant', 'Incorrect', 'Hallucination', 'Slow'];
 
 enum FeedbackTypes {
   like = 'like',

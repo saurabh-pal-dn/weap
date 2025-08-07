@@ -23,6 +23,7 @@ function withSidePanel(manifest) {
       default_path: 'side-panel/index.html',
     },
     permissions: ['sidePanel'],
+    host_permissions: ['<all_urls>'],
   });
 }
 
