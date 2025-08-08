@@ -136,6 +136,7 @@ const SidePanel = () => {
     (event: AgentEvent) => {
       const { actor, state, timestamp, data } = event;
       const content = data?.details;
+      console.info({ data });
       let skip = true;
       let displayProgress = false;
 
@@ -1013,7 +1014,7 @@ const SidePanel = () => {
               <>
                 <button
                   type="button"
-                  title="Developed by RBI for RBI. @Chirag Team + Saurabh Pal"
+                  title="Developed by RBI for RBI. @Chirag Team + Saurabh Pal. For feedback or queries, please write to chiragsupport@rbi.org.in"
                   className={`header-icon ${isDarkMode ? 'text-sky-400 hover:text-sky-300' : 'text-sky-400 hover:text-sky-500'} cursor-pointer`}
                   aria-label="about"
                   tabIndex={0}>
@@ -1076,9 +1077,10 @@ const SidePanel = () => {
                     ChiRAG
                   </h3>
                   <p className="mb-4">
-                    You can add your personal details in settings. This is a one time activity. Please wait for 5
-                    seconds while we set things up
+                    You can add your personal details in settings. This is a one time activity. Please wait for 10
+                    seconds while we set things up.
                   </p>
+
                   <button
                     onClick={() => {
                       chrome.runtime.openOptionsPage();
@@ -1133,7 +1135,7 @@ const SidePanel = () => {
                         className={`mb-3 pl-2 text-center text-lg font-medium ${isDarkMode ? 'text-gray-200' : 'text-gray-700'}`}>
                         Quick Start
                       </h3>
-                      <div className="items-center[-ms-overflow-style:none] max-h-60 max-w-full flex-1 overflow-y-auto pl-3.5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+                      <div className="items-center[-ms-overflow-style:none] max-h-60 max-w-full flex-1 overflow-y-auto pl-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
                         <BookmarkList
                           bookmarks={favoritePrompts}
                           onBookmarkSelect={handleBookmarkSelect}
@@ -1154,23 +1156,28 @@ const SidePanel = () => {
                   </div>
                 )}
                 {messages.length > 0 && (
-                  <div
-                    className={`border-t ${isDarkMode ? 'border-sky-900' : 'border-sky-100'} p-2 shadow-sm backdrop-blur-sm`}>
-                    <ChatInput
-                      onSendMessage={handleSendMessage}
-                      onStopTask={handleStopTask}
-                      onMicClick={handleMicClick}
-                      isRecording={isRecording}
-                      isProcessingSpeech={isProcessingSpeech}
-                      disabled={!inputEnabled || isHistoricalSession}
-                      showStopButton={showStopButton}
-                      setContent={setter => {
-                        setInputTextRef.current = setter;
-                      }}
-                      isDarkMode={isDarkMode}
-                      historicalSessionId={isHistoricalSession && replayEnabled ? currentSessionId : null}
-                      onReplay={handleReplay}
-                    />
+                  <div>
+                    <div
+                      className={`border-t ${isDarkMode ? 'border-sky-900' : 'border-sky-100'} p-2 shadow-sm backdrop-blur-sm`}>
+                      <ChatInput
+                        onSendMessage={handleSendMessage}
+                        onStopTask={handleStopTask}
+                        onMicClick={handleMicClick}
+                        isRecording={isRecording}
+                        isProcessingSpeech={isProcessingSpeech}
+                        disabled={!inputEnabled || isHistoricalSession}
+                        showStopButton={showStopButton}
+                        setContent={setter => {
+                          setInputTextRef.current = setter;
+                        }}
+                        isDarkMode={isDarkMode}
+                        historicalSessionId={isHistoricalSession && replayEnabled ? currentSessionId : null}
+                        onReplay={handleReplay}
+                      />
+                    </div>
+                    <div className={`text-center text-xs italic ${isDarkMode ? 'text-gray-200' : 'text-gray-700'}`}>
+                      The agent can make mistakes. Please check important info.
+                    </div>
                   </div>
                 )}
               </>
