@@ -7,6 +7,7 @@ export interface PersonalSettingsConfig {
   profilePicture: string;
   name: string;
   dob: string;
+  isDarkMode: boolean;
   isShownAready?: boolean;
 }
 
@@ -22,6 +23,7 @@ export const DEFAULT_PERSONAL_SETTINGS: PersonalSettingsConfig = {
   profilePicture: '',
   name: '',
   dob: '',
+  isDarkMode: true,
   isShownAready: false,
 };
 

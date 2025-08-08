@@ -54,7 +54,7 @@ const SidePanel = () => {
   // Use global dark mode from settings
   useEffect(() => {
     async function fetchSettings() {
-      const settings = await generalSettingsStore.getSettings();
+      const settings = await personalSettingsStore.getSettings();
       setIsDarkMode(settings.isDarkMode);
     }
     fetchSettings();

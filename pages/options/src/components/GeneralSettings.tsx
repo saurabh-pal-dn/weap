@@ -9,7 +9,6 @@ export const GeneralSettings = ({ isDarkMode = false }: GeneralSettingsProps) =>
   const [settings, setSettings] = useState<GeneralSettingsConfig>(DEFAULT_GENERAL_SETTINGS);
 
   useEffect(() => {
-    // Load initial settings
     generalSettingsStore.getSettings().then(setSettings);
   }, []);
 

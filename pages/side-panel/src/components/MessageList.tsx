@@ -2,6 +2,7 @@ import type { Message } from '@extension/storage';
 import { ACTOR_PROFILES } from '../types/message';
 import { memo } from 'react';
 import Feedback from './Feedback';
+import Markdown from 'react-markdown';
 
 interface MessageListProps {
   messages: Message[];
@@ -71,7 +72,7 @@ function MessageBlock({ message, isSameActor, isDarkMode = false, id }: MessageB
                 <div className="animate-progress h-full bg-blue-500" />
               </div>
             ) : (
-              response
+              <Markdown>{response}</Markdown>
             )}
           </div>
           {!isProgress && (actor.name === 'System' || actor.name === 'Validator ✅') && (

@@ -25,7 +25,7 @@ const Options = () => {
   // Use global dark mode from settings
   useEffect(() => {
     async function fetchSettings() {
-      const settings = await import('@extension/storage').then(m => m.generalSettingsStore.getSettings());
+      const settings = await import('@extension/storage').then(m => m.personalSettingsStore.getSettings());
       setIsDarkMode(settings.isDarkMode);
     }
     fetchSettings();
