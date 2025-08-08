@@ -113,7 +113,7 @@ export default function ChatInput({
                 ? 'bg-slate-800 text-gray-200'
                 : 'bg-white'
           }`}
-          placeholder="Please input your request 😊"
+          placeholder="Please input your request"
           aria-label="Message input"
         />
 

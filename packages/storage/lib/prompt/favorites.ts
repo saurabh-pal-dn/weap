@@ -19,6 +19,10 @@ const defaultFavoritePromptsForInternet = {
   domain: 'internet',
   prompts: [
     {
+      title: `Summarise the page?`,
+      content: `Summarise the whole page for me.\nGive me bullet points for the information available on the page.`,
+    },
+    {
       title: `What is the current policy rate?`,
       content: `What is the current policy rate?\nGo to https://rbi.org.in/home.aspx.\nSummarise the policy rates and tell me.`,
     },

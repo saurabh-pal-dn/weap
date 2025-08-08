@@ -1,0 +1,36 @@
+export const NAVIGATOR_THINKING_MESSAGES = [
+  "I'm currently working on that for you. I'll have the information ready shortly.",
+  'Just a moment while I gather that information for you.',
+  "I'm searching the web for the details you requested.",
+  "I'm navigating to find the answer. Please be patient.",
+  "I'm looking that up right now. I'll let you know as soon as I have it.",
+  'Finding that information for you. This might take a moment.',
+  'Please wait while I process your request and find the necessary details.',
+  "I've received your request and am now in the process of fulfilling it.",
+  'Searching the web for the most accurate and up-to-date information.',
+  "I'm on it! I'll be back with your results very soon.",
+];
+export const PLANNER_THINKING_MESSAGES = [
+  "I'm currently searching the web for the information you requested.",
+  "Just a moment while I look that up for you. I'll be right back with the details.",
+  "I'm navigating to the relevant pages to find your answer.",
+  "I'm working on that right now. Please bear with me for a moment.",
+  "Gathering the data you need. I'll have the answer for you shortly.",
+  "I've received your query and am now processing the request on the web.",
+  'Browse for the most accurate and up-to-date information for you.',
+  'Please wait while I find the necessary details to answer your question.',
+  "I'm on it! I'm performing a quick web search to get you what you need.",
+  'Searching the internet for a comprehensive response to your query.',
+];
+export const VALIDATOR_THINKING_MESSAGES = [
+  "I've validated the plan, and it's robust and logical.",
+  'The information gathered is accurate and has been cross-referenced.',
+  "I've confirmed that the steps outlined in the plan are sound.",
+  'The data provided is correct and meets the specified requirements.',
+  "I'm performing a final check to ensure all information is valid.",
+  'The gathered details are verified and ready for use.',
+  "I've approved the plan; it's comprehensive and well-structured.",
+  'The output aligns perfectly with the initial request.',
+  "The information's integrity has been confirmed.",
+  'All steps have been reviewed and validated for efficiency and accuracy.',
+];

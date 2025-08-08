@@ -353,7 +353,7 @@ export class Executor {
    */
   async replayHistory(
     sessionId: string,
-    maxRetries = 3,
+    maxRetries = 2,
     skipFailures = true,
     delayBetweenActions = 2.0,
   ): Promise<ActionResult[]> {

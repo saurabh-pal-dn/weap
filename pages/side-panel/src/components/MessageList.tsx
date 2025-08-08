@@ -74,7 +74,7 @@ function MessageBlock({ message, isSameActor, isDarkMode = false, id }: MessageB
               response
             )}
           </div>
-          {!isProgress && (actor.name === 'System' || actor.name === 'Validator') && (
+          {!isProgress && (actor.name === 'System' || actor.name === 'Validator ✅') && (
             <div
               className={`flex items-center justify-between gap-2 text-xs ${!isDarkMode ? 'text-gray-500' : 'text-gray-300'}`}>
               <Feedback id={id} />

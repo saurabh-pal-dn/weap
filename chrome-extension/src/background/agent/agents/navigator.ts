@@ -494,8 +494,8 @@ export class NavigatorAgent extends BaseAgent<z.ZodType, NavigatorResult> {
         console.log({ currentTabUrl });
         // TODO: wait for 3 second for samadhan, 1second for others need to optimize this to avoid unnecessary waiting
         if (currentTabUrl.includes('samadhan')) {
-          console.log('wait for 3 second for samadhan');
-          await delay(3000);
+          console.log('wait for 4 second for samadhan');
+          await delay(3500);
         } else {
           await delay(1000);
         }

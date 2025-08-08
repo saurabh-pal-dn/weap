@@ -7,12 +7,14 @@ export interface PersonalSettingsConfig {
   profilePicture: string;
   name: string;
   dob: string;
+  isShownAready?: boolean;
 }
 
 export type PersonalSettingsStorage = BaseStorage<PersonalSettingsConfig> & {
   updateSettings: (settings: Partial<PersonalSettingsConfig>) => Promise<void>;
   getSettings: () => Promise<PersonalSettingsConfig>;
   resetToDefaults: () => Promise<void>;
+  isShownAlready: () => Promise<boolean>;
 };
 
 // Default settings
@@ -20,6 +22,7 @@ export const DEFAULT_PERSONAL_SETTINGS: PersonalSettingsConfig = {
   profilePicture: '',
   name: '',
   dob: '',
+  isShownAready: false,
 };
 
 const storage = createStorage<PersonalSettingsConfig>('personal-settings', DEFAULT_PERSONAL_SETTINGS, {
@@ -46,5 +49,11 @@ export const personalSettingsStore: PersonalSettingsStorage = {
   },
   async resetToDefaults() {
     await storage.set(DEFAULT_PERSONAL_SETTINGS);
+  },
+  async isShownAlready() {
+    const settings = await storage.get();
+    if (settings.isShownAready) return true;
+    this.updateSettings({ isShownAready: true });
+    return false;
   },
 };

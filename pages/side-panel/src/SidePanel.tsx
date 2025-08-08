@@ -3,7 +3,13 @@ import { useState, useEffect, useCallback, useRef } from 'react';
 import { FiSettings } from 'react-icons/fi';
 import { IoIosAddCircle, IoIosHelpCircleOutline } from 'react-icons/io';
 import { FaHistory } from 'react-icons/fa';
-import { type Message, Actors, chatHistoryStore, generalSettingsStore } from '@extension/storage';
+import {
+  type Message,
+  Actors,
+  chatHistoryStore,
+  generalSettingsStore,
+  personalSettingsStore,
+} from '@extension/storage';
 import favoritesStorage, { type FavoritePrompt } from '@extension/storage/lib/prompt/favorites';
 import MessageList from './components/MessageList';
 import ChatInput from './components/ChatInput';
@@ -55,7 +61,8 @@ const SidePanel = () => {
   }, []);
 
   const checkModelConfiguration = useCallback(async () => {
-    setHasConfiguredModels(true);
+    const isPersonalSettingPageShownAlready: boolean = await personalSettingsStore.isShownAlready();
+    setHasConfiguredModels(isPersonalSettingPageShownAlready);
   }, []);
 
   // Load general settings to check if replay is enabled
@@ -1014,7 +1021,7 @@ const SidePanel = () => {
               <>
                 <button
                   type="button"
-                  title="Developed by RBI for RBI. @Chirag Team + Saurabh Pal. For feedback or queries, please write to chiragsupport@rbi.org.in"
+                  title="Developed by RBI for RBI.&#013;@Chirag Team + Saurabh Pal. &#013;For feedback or queries, please write to chiragsupport@rbi.org.in"
                   className={`header-icon ${isDarkMode ? 'text-sky-400 hover:text-sky-300' : 'text-sky-400 hover:text-sky-500'} cursor-pointer`}
                   aria-label="about"
                   tabIndex={0}>
@@ -1085,8 +1092,8 @@ const SidePanel = () => {
                     onClick={() => {
                       chrome.runtime.openOptionsPage();
                       setTimeout(() => {
-                        setHasConfiguredModels(true);
-                      }, 5000);
+                        checkModelConfiguration();
+                      }, 10000);
                     }}
                     className={`my-4 rounded-lg px-4 py-2 font-medium transition-colors ${
                       isDarkMode ? 'bg-sky-600 text-white hover:bg-sky-700' : 'bg-sky-500 text-white hover:bg-sky-600'
@@ -1132,7 +1139,7 @@ const SidePanel = () => {
                     </div>
                     <div className="absolute bottom-0 max-w-full">
                       <h3
-                        className={`mb-3 pl-2 text-center text-lg font-medium ${isDarkMode ? 'text-gray-200' : 'text-gray-700'}`}>
+                        className={`mb-3 text-center text-lg font-medium ${isDarkMode ? 'text-gray-200' : 'text-gray-700'}`}>
                         Quick Start
                       </h3>
                       <div className="items-center[-ms-overflow-style:none] max-h-60 max-w-full flex-1 overflow-y-auto pl-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">

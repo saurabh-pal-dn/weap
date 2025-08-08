@@ -30,7 +30,7 @@ export const DEFAULT_GENERAL_SETTINGS: GeneralSettingsConfig = {
   useVision: false,
   useVisionForPlanner: false,
   planningInterval: 1,
-  displayHighlights: true,
+  displayHighlights: false,
   minWaitPageLoad: 1000,
   replayHistoricalTasks: false,
   isDarkMode: true,

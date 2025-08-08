@@ -17,7 +17,10 @@ export const PersonalSettings = ({ isDarkMode = false }: PersonalSettingsProps) 
     // Optimistically update the local state for responsiveness
     setSettings(prevSettings => ({ ...prevSettings, [key]: value }));
     // Call the store to update the setting
-    await personalSettingsStore.updateSettings({ [key]: value } as Partial<PersonalSettingsConfig>);
+    await personalSettingsStore.updateSettings({
+      [key]: value,
+      isShownAready: true,
+    } as Partial<PersonalSettingsConfig>);
     // After the store update, fetch the latest settings from the store and update the local state again to ensure UI consistency.
     const latestSettings = await personalSettingsStore.getSettings();
     setSettings(latestSettings);

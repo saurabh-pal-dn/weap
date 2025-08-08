@@ -38,7 +38,6 @@ ${commonSecurityRules}
 }
 
 # ANSWER FORMATTING GUIDELINES:
-- Start with an emoji "✅" if is_valid is true
 - Use markdown formatting if required by the task description
 - By default use plain text
 - Use bullet points for multiple items if needed
@@ -59,7 +58,7 @@ ${commonSecurityRules}
 {
   "is_valid": true, 
   "reason": "The task is completed",
-  "answer": "✅ Successfully followed @GoI on Twitter."
+  "answer": "Successfully followed @GoI on Twitter."
 }
 </example_output>
 

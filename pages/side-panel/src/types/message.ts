@@ -20,7 +20,7 @@ export const ACTOR_PROFILES = {
     iconBackground: '#2abac2ff',
   },
   validator: {
-    name: 'Validator',
+    name: 'Validator ✅',
     icon: 'icons/validator.svg',
     iconBackground: '#d76b8fff',
   },
