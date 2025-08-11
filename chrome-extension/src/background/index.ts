@@ -275,13 +275,13 @@ chrome.runtime.onConnect.addListener(port => {
 });
 
 async function setupExecutor(taskId: string, task: string, browserContext: BrowserContext) {
-  // const hardcodedProviderId = 'custom_openai',
-  //   hardcodedProviderModelName = '/chiragdata/Models/Qwen32b';
+  const hardcodedProviderId = 'custom_openai',
+    hardcodedProviderModelName = '/chiragdata/Models/Qwen32b';
 
   // handling all logic to setup models at setup to bypass UI
   // Setting up providers
-  const hardcodedProviderId = 'gemini',
-    hardcodedProviderModelName = 'gemini-2.5-flash';
+  // const hardcodedProviderId = 'gemini',
+  //   hardcodedProviderModelName = 'gemini-2.5-flash';
   await llmProviderStore.setProvider(hardcodedProviderId, getDefaultProviderConfig(hardcodedProviderId));
 
   const providers = await llmProviderStore.getAllProviders();
