@@ -41,6 +41,7 @@ export const AboutUs = ({ isDarkMode }: AboutUsProps) => {
               <li>
                 Conversational AI: Converse with your assistant and get your queries answered in a faster humane way.
               </li>
+              <li>Enhanced prompts: Self learning from user prompts to understand better</li>
             </ul>
           </div>
         </div>

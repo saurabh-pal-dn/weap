@@ -15,7 +15,7 @@ export enum ProviderTypeEnum {
 
 // Default supported models for each built-in provider
 export const llmProviderModelNames = {
-  [ProviderTypeEnum.CustomOpenAI]: ['/chiragdata/models/Qwen235b'],
+  [ProviderTypeEnum.CustomOpenAI]: ['/chiragdata/models/Qwen32b'],
   [ProviderTypeEnum.Gemini]: ['gemini-2.5-flash'],
 };
 

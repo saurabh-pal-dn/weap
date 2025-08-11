@@ -2,12 +2,17 @@ import { useState } from 'react';
 import { FaThumbsUp, FaThumbsDown } from 'react-icons/fa';
 
 const FEEDBACK_OPTIONS = ['Incomplete', 'Irrelevant', 'Incorrect', 'Hallucination', 'Slow'];
-const ELASTIC_URL = 'https://my-elasticsearch-project-d6a200.es.asia-south1.gcp.elastic.cloud:443/chirag-agent-0/_doc';
-const ELASTIC_API_KEY = 'cmZ2TmZwZ0J2OEtUTEsyWVoxSmc6Sk10Q09OY0E4Sk1IUHd4cmh0M1lXdw==';
+
+const ELASTIC_URL = 'https://my-elasticsearch-project-d6a200.es.asia-south1.gcp.elastic.cloud:443/chirag-agent-0/_doc',
+  ELASTIC_API_KEY = 'cmZ2TmZwZ0J2OEtUTEsyWVoxSmc6Sk10Q09OY0E4Sk1IUHd4cmh0M1lXdw==';
+
+// Local config
+// const ELASTIC_URL = 'https://172.23.113.145:9200/chirag-agent-0/_doc', ELASTIC_API_KEY="aWdIQmVaZ0JiZFlXSzBXV2h6cFE6THRZcXVvNjBTb2FoX0s4aVJNdEFhZw==";
+// const ELASTIC_URL = 'https://10.28.10.128:9200/chirag-agent-0/_doc', ELASTIC_API_KEY="aWdIQmVaZ0JiZFlXSzBXV2h6cFE6THRZcXVvNjBTb2FoX0s4aVJNdEFhZw==";
 
 enum FeedbackTypes {
-  like = 'like',
-  dislike = 'dislike',
+  like = 'liked',
+  dislike = 'disliked',
 }
 
 interface ExtraFeedbackProps {
