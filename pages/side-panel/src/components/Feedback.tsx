@@ -2,6 +2,8 @@ import { useState } from 'react';
 import { FaThumbsUp, FaThumbsDown } from 'react-icons/fa';
 
 const FEEDBACK_OPTIONS = ['Incomplete', 'Irrelevant', 'Incorrect', 'Hallucination', 'Slow'];
+const ELASTIC_URL = 'https://my-elasticsearch-project-d6a200.es.asia-south1.gcp.elastic.cloud:443/chirag-agent-0/_doc';
+const ELASTIC_API_KEY = 'cmZ2TmZwZ0J2OEtUTEsyWVoxSmc6Sk10Q09OY0E4Sk1IUHd4cmh0M1lXdw==';
 
 enum FeedbackTypes {
   like = 'like',
@@ -14,19 +16,15 @@ interface ExtraFeedbackProps {
 
 async function sendFeedback(feedback: object) {
   try {
-    const response = await fetch(
-      'https://my-elasticsearch-project-d6a200.es.asia-south1.gcp.elastic.cloud:443/chirag-agent-0/_doc',
-      {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: 'ApiKey cmZ2TmZwZ0J2OEtUTEsyWVoxSmc6Sk10Q09OY0E4Sk1IUHd4cmh0M1lXdw==',
-        },
-        body: JSON.stringify(feedback),
+    const response = await fetch(ELASTIC_URL, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `ApiKey ${ELASTIC_API_KEY}`,
       },
-    );
+      body: JSON.stringify(feedback),
+    });
     if (!response.ok) throw new Error('Failed to submit feedback');
-
     console.log('Feedback submitted successfully');
   } catch (error) {
     console.error('Error submitting feedback:', error);

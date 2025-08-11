@@ -13,6 +13,7 @@ interface ChatHistoryListProps {
   onSessionSelect: (sessionId: string) => void;
   onSessionDelete: (sessionId: string) => void;
   onSessionBookmark: (sessionId: string) => void;
+  onAllSessionDelete: () => void;
   visible: boolean;
   isDarkMode?: boolean;
 }
@@ -22,6 +23,7 @@ const ChatHistoryList: React.FC<ChatHistoryListProps> = ({
   onSessionSelect,
   onSessionDelete,
   onSessionBookmark,
+  onAllSessionDelete,
   visible,
   isDarkMode = false,
 }) => {
@@ -34,7 +36,23 @@ const ChatHistoryList: React.FC<ChatHistoryListProps> = ({
 
   return (
     <div className="h-full overflow-y-auto p-4">
-      <h2 className={`mb-4 text-lg font-semibold ${isDarkMode ? 'text-gray-200' : 'text-gray-800'}`}>Chat History</h2>
+      <div className="flex justify-between">
+        <h2 className={`mt-1.5 text-lg font-semibold ${isDarkMode ? 'text-gray-200' : 'text-gray-800'}`}>
+          Chat History
+        </h2>
+        <button
+          onClick={e => {
+            e.stopPropagation();
+            onAllSessionDelete();
+          }}
+          className={`mt-0 rounded p-1 ${
+            isDarkMode ? ' text-gray-400 hover:bg-slate-600' : 'text-gray-500 hover:bg-gray-100'
+          }`}
+          aria-label="Delete All"
+          type="button">
+          <FaTrash size={14} />
+        </button>
+      </div>
       {sessions.length === 0 ? (
         <div
           className={`rounded-lg ${isDarkMode ? 'bg-slate-800 text-gray-400' : 'bg-white/30 text-gray-500'} p-4 text-center backdrop-blur-sm`}>

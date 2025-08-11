@@ -53,11 +53,15 @@ const SidePanel = () => {
 
   // Use global dark mode from settings
   useEffect(() => {
-    async function fetchSettings() {
-      const settings = await personalSettingsStore.getSettings();
-      setIsDarkMode(settings.isDarkMode);
-    }
-    fetchSettings();
+    const updateDarkMode = () => {
+      personalSettingsStore.getSettings().then(settings => {
+        setIsDarkMode(settings.isDarkMode);
+      });
+    };
+
+    updateDarkMode(); // Initial load
+    const unsubscribe = personalSettingsStore.subscribe(updateDarkMode);
+    return unsubscribe;
   }, []);
 
   const checkModelConfiguration = useCallback(async () => {
@@ -720,6 +724,14 @@ const SidePanel = () => {
     }
   };
 
+  const handleAllSessionsDelete = async () => {
+    try {
+      await chatHistoryStore.clearAllSessions();
+    } catch (error) {
+      console.error('Failed to delete session:', error);
+    }
+  };
+
   const handleSessionBookmark = async (sessionId: string) => {
     try {
       const fullSession = await chatHistoryStore.getSession(sessionId);
@@ -1067,6 +1079,7 @@ const SidePanel = () => {
               sessions={chatSessions}
               onSessionSelect={handleSessionSelect}
               onSessionDelete={handleSessionDelete}
+              onAllSessionDelete={handleAllSessionsDelete}
               onSessionBookmark={handleSessionBookmark}
               visible={true}
               isDarkMode={isDarkMode}
@@ -1183,7 +1196,7 @@ const SidePanel = () => {
                       />
                     </div>
                     <div className={`text-center text-xs italic ${isDarkMode ? 'text-gray-200' : 'text-gray-700'}`}>
-                      The agent can make mistakes. Please check important info.
+                      The agent can make mistakes. Please check the progress.
                     </div>
                   </div>
                 )}

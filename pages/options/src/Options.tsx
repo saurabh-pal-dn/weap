@@ -6,11 +6,13 @@ import { GeneralSettings } from './components/GeneralSettings';
 import { ModelSettings } from './components/ModelSettings';
 import { FirewallSettings } from './components/FirewallSettings';
 import { PersonalSettings } from './components/PersonalSettings';
+import { AboutUs } from './components/AboutUs';
 
-type TabTypes = 'general' | 'models' | 'firewall' | 'help' | 'personal';
+type TabTypes = 'general' | 'models' | 'firewall' | 'help' | 'personal' | 'aboutUs';
 
 const TABS: { id: TabTypes; icon: string; label: string }[] = [
   { id: 'personal', icon: '👤', label: 'Personal' },
+  { id: 'aboutUs', icon: '💬', label: 'About us' },
   // { id: 'general', icon: '⚙️', label: 'General' },
   // { id: 'models', icon: '📊', label: 'Models' },
   // TODO: Implement
@@ -50,6 +52,8 @@ const Options = () => {
         return <FirewallSettings isDarkMode={isDarkMode} />;
       case 'personal':
         return <PersonalSettings isDarkMode={isDarkMode} />;
+      case 'aboutUs':
+        return <AboutUs isDarkMode={isDarkMode} />;
       default:
         return null;
     }

@@ -275,10 +275,14 @@ chrome.runtime.onConnect.addListener(port => {
 });
 
 async function setupExecutor(taskId: string, task: string, browserContext: BrowserContext) {
+  // const hardcodedProviderId = 'custom_openai',
+  //   hardcodedProviderModelName = '/chiragdata/Models/Qwen32b';
+
   // handling all logic to setup models at setup to bypass UI
   // Setting up providers
-  await llmProviderStore.setProvider('gemini', getDefaultProviderConfig('gemini'));
-  // await llmProviderStore.setProvider('custom_open_ai', getDefaultProviderConfig('custom_open_ai'));
+  const hardcodedProviderId = 'gemini',
+    hardcodedProviderModelName = 'gemini-2.5-flash';
+  await llmProviderStore.setProvider(hardcodedProviderId, getDefaultProviderConfig(hardcodedProviderId));
 
   const providers = await llmProviderStore.getAllProviders();
   // if no providers, need to display the options page
@@ -291,22 +295,16 @@ async function setupExecutor(taskId: string, task: string, browserContext: Brows
     topP: 0.1,
   };
 
+  const hardcodedModelConfig = {
+    provider: hardcodedProviderId,
+    modelName: hardcodedProviderModelName,
+    parameters: defaultParameter,
+  };
+
   // Using providers to set up models
-  await agentModelStore.setAgentModel(AgentNameEnum.Planner, {
-    provider: 'gemini',
-    modelName: 'gemini-2.5-flash',
-    parameters: defaultParameter,
-  });
-  await agentModelStore.setAgentModel(AgentNameEnum.Navigator, {
-    provider: 'gemini',
-    modelName: 'gemini-2.5-flash',
-    parameters: defaultParameter,
-  });
-  await agentModelStore.setAgentModel(AgentNameEnum.Validator, {
-    provider: 'gemini',
-    modelName: 'gemini-2.5-flash',
-    parameters: defaultParameter,
-  });
+  await agentModelStore.setAgentModel(AgentNameEnum.Planner, hardcodedModelConfig);
+  await agentModelStore.setAgentModel(AgentNameEnum.Navigator, hardcodedModelConfig);
+  await agentModelStore.setAgentModel(AgentNameEnum.Validator, hardcodedModelConfig);
 
   const agentModels = await agentModelStore.getAllAgentModels();
   // verify if every provider used in the agent models exists in the providers

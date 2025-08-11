@@ -3,6 +3,10 @@ import { createStorage } from '../base/base';
 import type { BaseStorage } from '../base/types';
 import { type AgentNameEnum, llmProviderModelNames, llmProviderParameters, ProviderTypeEnum } from './types';
 
+const GEMINI_API_KEY = 'AIzaSyDo70JQjqvT-pMs2jK252AH0pXvopz80Tg';
+const CHIRAG_BASE_URL = 'https://chiraguat.rbi.org.in/v1';
+const CHIRAG_DEFAULT_MODEL = '/chiragdata/Models/Qwen32b';
+
 // Interface for a single provider configuration
 export interface ProviderConfig {
   name?: string; // Display name in the options
@@ -64,7 +68,7 @@ export function getDefaultDisplayNameFromProviderId(providerId: string): string 
 function getAPIKey(providerId: string): string {
   switch (providerId) {
     case ProviderTypeEnum.Gemini:
-      return 'AIzaSyDo70JQjqvT-pMs2jK252AH0pXvopz80Tg';
+      return GEMINI_API_KEY;
     default:
       return 'NONE_REQUIRED';
   }
@@ -88,8 +92,8 @@ export function getDefaultProviderConfig(providerId: string): ProviderConfig {
         apiKey: getAPIKey(providerId),
         name: getDefaultDisplayNameFromProviderId(providerId),
         type: ProviderTypeEnum.CustomOpenAI,
-        baseUrl: 'https://chiraguat.rbi.org.in/v1',
-        modelNames: ['/chiragdata/Models/Qwen32b'],
+        baseUrl: CHIRAG_BASE_URL,
+        modelNames: [CHIRAG_DEFAULT_MODEL],
         createdAt: Date.now(),
       };
   }
