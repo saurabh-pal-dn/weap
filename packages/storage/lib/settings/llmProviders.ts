@@ -3,9 +3,9 @@ import { createStorage } from '../base/base';
 import type { BaseStorage } from '../base/types';
 import { type AgentNameEnum, llmProviderModelNames, llmProviderParameters, ProviderTypeEnum } from './types';
 
-const GEMINI_API_KEY = 'AIzaSyDo70JQjqvT-pMs2jK252AH0pXvopz80Tg';
-const CHIRAG_BASE_URL = 'https://chiraguat.rbi.org.in/v1';
-const CHIRAG_DEFAULT_MODEL = '/chiragdata/Models/Qwen32b';
+const GEMINI_API_KEY = '-';
+const CHIRAG_BASE_URL = 'http://10.29.9.130:8083/v1';
+const CHIRAG_DEFAULT_MODEL = '/models/qwen';
 
 // Interface for a single provider configuration
 export interface ProviderConfig {
