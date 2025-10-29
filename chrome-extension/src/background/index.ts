@@ -17,6 +17,7 @@ import type { BaseChatModel } from '@langchain/core/language_models/chat_models'
 import { DEFAULT_AGENT_OPTIONS } from './agent/types';
 import { SpeechToTextService } from './services/speechToText';
 
+const CHIRAG_DEFAULT_MODEL = '/models/qwen';
 const logger = createLogger('background');
 
 const browserContext = new BrowserContext({});
@@ -276,7 +277,7 @@ chrome.runtime.onConnect.addListener(port => {
 
 async function setupExecutor(taskId: string, task: string, browserContext: BrowserContext) {
   const hardcodedProviderId = 'custom_openai',
-    hardcodedProviderModelName = '/chiragdata/Models/Qwen32b';
+    hardcodedProviderModelName = CHIRAG_DEFAULT_MODEL;
 
   // handling all logic to setup models at setup to bypass UI
   // Setting up providers

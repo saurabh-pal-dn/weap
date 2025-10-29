@@ -4,7 +4,7 @@ export enum AgentNameEnum {
   Navigator = 'navigator',
   Validator = 'validator',
 }
-
+const CHIRAG_DEFAULT_MODEL = '/models/qwen';
 // Provider type, types before CustomOpenAI are built-in providers, CustomOpenAI is a custom provider
 // For built-in providers, we will create ChatModel instances with its respective LangChain ChatModel classes
 // For custom providers, we will create ChatModel instances with the ChatOpenAI class
@@ -15,7 +15,7 @@ export enum ProviderTypeEnum {
 
 // Default supported models for each built-in provider
 export const llmProviderModelNames = {
-  [ProviderTypeEnum.CustomOpenAI]: ['/chiragdata/models/Qwen32b'],
+  [ProviderTypeEnum.CustomOpenAI]: [CHIRAG_DEFAULT_MODEL],
   [ProviderTypeEnum.Gemini]: ['gemini-2.5-flash'],
 };
 

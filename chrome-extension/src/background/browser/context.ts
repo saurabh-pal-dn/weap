@@ -267,8 +267,8 @@ export default class BrowserContext {
     //  Use chrome.tabs.update only if the page is not attached
     const tabId = page.tabId;
     // Update tab and wait for events
-    await chrome.tabs.update(tabId, { url, active: true });
-    await this.waitForTabEvents(tabId);
+    await chrome.tabs.update(tabId, { url, active: false });
+    await this.waitForTabEvents(tabId, { waitForActivation: false });
 
     // Reattach the page after navigation completes
     const updatedPage = await this._getOrCreatePage(await chrome.tabs.get(tabId), true);
@@ -283,13 +283,13 @@ export default class BrowserContext {
 
     // Making this tab open in
     // Create the new tab
-    const tab = await chrome.tabs.create({ url, active: true });
+    const tab = await chrome.tabs.create({ url, active: false });
     console.info('Opening new tab');
     if (!tab.id) {
       throw new Error('No tab ID available');
     }
     // Wait for tab events
-    await this.waitForTabEvents(tab.id);
+    await this.waitForTabEvents(tab.id, { waitForActivation: false });
 
     // Get updated tab information
     const updatedTab = await chrome.tabs.get(tab.id);

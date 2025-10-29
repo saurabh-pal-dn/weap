@@ -4,7 +4,7 @@ import type { BaseStorage } from '../base/types';
 import { type AgentNameEnum, llmProviderModelNames, llmProviderParameters, ProviderTypeEnum } from './types';
 
 const GEMINI_API_KEY = '-';
-const CHIRAG_BASE_URL = 'http://10.29.9.130:8083/v1';
+const CHIRAG_BASE_URL = 'xxx';
 const CHIRAG_DEFAULT_MODEL = '/models/qwen';
 
 // Interface for a single provider configuration
